@@ -17,10 +17,11 @@ class BATTLEARENA_API UBattleArenaGameInstance : public UGameInstance
 	
 public:
 	UBattleArenaGameInstance();
+	IOnlineSessionPtr SessionInterface;
+
 
 protected:
 	
-	IOnlineSessionPtr SessionInterface;
 
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
 	
@@ -28,7 +29,7 @@ protected:
 
 	virtual void OnCreateSessionComplete(FName ServerName, bool Success);
 	virtual void OnFindSessionComplete(bool Success);
-
+	virtual void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 	UFUNCTION(BlueprintCallable)
 	void CreateServer();

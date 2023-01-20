@@ -13,7 +13,20 @@ class ABattleArenaGameMode : public AGameModeBase
 
 public:
 	ABattleArenaGameMode();
+
+protected:
+
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+	
+	UFUNCTION(BlueprintCallable)
+	void CompleteMiniGame(AActor* Player);
+
+	UFUNCTION(BlueprintCallable)
+	void SetLootTimer();
+
+	void EndLooting();
+
+	bool MinigameComplete;
+	
+	FTimerHandle LootTimer;
 };
-
-
-

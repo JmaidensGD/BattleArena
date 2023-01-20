@@ -4,6 +4,7 @@
 #include "BattleArenaGameInstance.h"
 #include  "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
+#include "Kismet/GameplayStatics.h"
 
 UBattleArenaGameInstance::UBattleArenaGameInstance()
 {
@@ -20,6 +21,7 @@ void UBattleArenaGameInstance::Init()
 			//Bind Delegeates
 			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UBattleArenaGameInstance::OnCreateSessionComplete);
 			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this,&UBattleArenaGameInstance::OnFindSessionComplete);
+			SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this,&UBattleArenaGameInstance::OnJoinSessionComplete);
 		}
 	}
 }
@@ -40,7 +42,29 @@ void UBattleArenaGameInstance::OnFindSessionComplete(bool Success)
 	if(Success)
 	{
 		TArray<FOnlineSessionSearchResult> SearchResults = SessionSearch->SearchResults;
+
 		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SearchResults.Num());
+		
+		if(SearchResults.Num())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Joining Server"));
+			SessionInterface->JoinSession(0,"Base Session Name", SearchResults[0]);
+		}
+		
+	}
+}
+
+void UBattleArenaGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+{
+	UE_LOG(LogTemp, Warning, TEXT("OnJoinSessionComplete, SessionName : %s"),*SessionName.ToString());
+	if(APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(),0))
+	{
+		FString JoinAddress;
+		SessionInterface->GetResolvedConnectString(SessionName, JoinAddress);
+		if(JoinAddress!="")
+		{
+			PlayerController->ClientTravel(JoinAddress, TRAVEL_Absolute);
+		}
 	}
 }
 
@@ -65,7 +89,7 @@ void UBattleArenaGameInstance::JoinServer()
 	
 	SessionSearch=MakeShareable(new FOnlineSessionSearch());
 	SessionSearch->bIsLanQuery = true;
-	SessionSearch->MaxSearchResults = 10000;g
+	SessionSearch->MaxSearchResults = 10000;
 	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 	
 	SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
