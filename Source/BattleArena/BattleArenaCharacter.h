@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "InputMappingContext.h"
 #include "BattleArenaCharacter.generated.h"
 
 
