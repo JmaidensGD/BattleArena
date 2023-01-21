@@ -41,13 +41,10 @@ class ABattleArenaCharacter : public ACharacter
 
 public:
 	ABattleArenaCharacter();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UPlayerUI* PlayerHud;
 	
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Replicated)
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
     float PlayerHealth;
-    UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Replicated)
+    UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
     float MaxHealth;
 	
 protected:

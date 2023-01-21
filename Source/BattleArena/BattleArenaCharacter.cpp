@@ -104,7 +104,7 @@ float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& 
 {
 	PlayerHealth -= DamageAmount;
 	UE_LOG(LogTemp, Warning, TEXT("taken damage"));
-	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	return DamageAmount;
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)
