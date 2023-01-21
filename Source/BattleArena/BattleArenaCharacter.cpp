@@ -12,6 +12,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/PlayerState.h"
+#include "Net/UnrealNetwork.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -67,7 +68,13 @@ void ABattleArenaCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	PlayerHud->UpdateHealth(0.5f);
+}
+
+void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ABattleArenaCharacter,MaxHealth);
+	DOREPLIFETIME(ABattleArenaCharacter,PlayerHealth);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -95,9 +102,8 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
 	AController* EventInstigator, AActor* DamageCauser)
 {
-	ABattleArenaPlayerState* PS = GetPlayerState<ABattleArenaPlayerState>();
-	PS->ApplyDamage(DamageAmount);
-	PlayerHud->UpdateHealth(0.5f);
+	PlayerHealth -= DamageAmount;
+	UE_LOG(LogTemp, Warning, TEXT("taken damage"));
 	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
 

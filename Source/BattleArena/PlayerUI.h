@@ -21,9 +21,5 @@ class BATTLEARENA_API UPlayerUI : public UUserWidget
 	
 private:
 	virtual bool Initialize() override;
-
-public:
-	UPROPERTY(BlueprintReadWrite)
-	ABattleArenaPlayerState* PS;
 	
 };

@@ -45,6 +45,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UPlayerUI* PlayerHud;
 	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Replicated)
+    float PlayerHealth;
+    UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Replicated)
+    float MaxHealth;
+	
 protected:
 
 	/** Called for movement input */

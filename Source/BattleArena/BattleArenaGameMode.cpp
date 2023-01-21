@@ -18,6 +18,7 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 }
 
+
 AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Player)
 {
 	/*TSubclassOf<APlayerStart> ToFind;
@@ -40,12 +41,12 @@ AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Play
 void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
+	
+	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
+	PC->MaxHealth = 100.0f;
+	PC->PlayerHealth = PC->MaxHealth;
 
-	ABattleArenaPlayerState* PlayerState = Cast<ABattleArenaPlayerState>(NewPlayer->PlayerState);
-	PlayerState->MaxHealth = 100.0f;
-	PlayerState->PlayerHealth = PlayerState->MaxHealth;
-
-	UE_LOG(LogTemp, Warning, TEXT("PostLogin: %f"), PlayerState->MaxHealth);
+	UE_LOG(LogTemp, Warning, TEXT("PostLogin: %f"), PC->MaxHealth);
 }
 
 void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
