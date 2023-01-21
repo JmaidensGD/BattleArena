@@ -1,6 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BattleArenaCharacter.h"
+
+#include "BattleArenaPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -9,6 +11,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/PlayerState.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -86,6 +89,13 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 	}
 
+}
+
+float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
+	AController* EventInstigator, AActor* DamageCauser)
+{
+	Cast<ABattleArenaPlayerState>(GetPlayerState())->ApplyDamage(DamageAmount);
+	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)

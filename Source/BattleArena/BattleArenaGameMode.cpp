@@ -3,6 +3,7 @@
 #include "BattleArenaGameMode.h"
 #include "BattleArenaCharacter.h"
 #include "BattleArenaGameInstance.h"
+#include "BattleArenaPlayerState.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
@@ -34,6 +35,17 @@ AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Play
 	}*/
 	
 	return Super::ChoosePlayerStart_Implementation(Player);
+}
+
+void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+
+	ABattleArenaPlayerState* PlayerState = Cast<ABattleArenaPlayerState>(NewPlayer->PlayerState);
+	PlayerState->MaxHealth = 100.0f;
+	PlayerState->PlayerHealth = PlayerState->MaxHealth;
+
+	UE_LOG(LogTemp, Warning, TEXT("PostLogin: %f"), PlayerState->MaxHealth);
 }
 
 void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
