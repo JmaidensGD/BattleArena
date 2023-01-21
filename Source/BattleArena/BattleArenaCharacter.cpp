@@ -67,6 +67,7 @@ void ABattleArenaCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+	PlayerHud->UpdateHealth(0.5f);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -94,7 +95,9 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
 	AController* EventInstigator, AActor* DamageCauser)
 {
-	Cast<ABattleArenaPlayerState>(GetPlayerState())->ApplyDamage(DamageAmount);
+	ABattleArenaPlayerState* PS = GetPlayerState<ABattleArenaPlayerState>();
+	PS->ApplyDamage(DamageAmount);
+	PlayerHud->UpdateHealth(0.5f);
 	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
 

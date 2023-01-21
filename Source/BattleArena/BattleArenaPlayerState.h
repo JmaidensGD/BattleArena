@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BattleArenaCharacter.h"
 #include "GameFramework/PlayerState.h"
 #include "BattleArenaPlayerState.generated.h"
 
@@ -26,13 +27,12 @@ public:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Replicated)
 	float MaxHealth;
 
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateHudEvent();
-	
+	UFUNCTION(Reliable,Server)
 	void ApplyDamage(float DamageAmount);
+	
 
 protected:
+	
 	ABattleArenaPlayerState();
 	
 };

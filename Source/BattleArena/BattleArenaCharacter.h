@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
+#include "PlayerUI.h"
 #include "BattleArenaCharacter.generated.h"
 
 
@@ -40,8 +41,10 @@ class ABattleArenaCharacter : public ACharacter
 
 public:
 	ABattleArenaCharacter();
-	
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPlayerUI* PlayerHud;
+	
 protected:
 
 	/** Called for movement input */

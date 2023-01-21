@@ -5,16 +5,15 @@
 
 #include "Net/UnrealNetwork.h"
 
-ABattleArenaPlayerState::ABattleArenaPlayerState()
-{
-	UpdateHud.AddDynamic(this,&ABattleArenaPlayerState::UpdateHudEvent);
-}
-
-void ABattleArenaPlayerState::ApplyDamage(float DamageAmount)
+void ABattleArenaPlayerState::ApplyDamage_Implementation(float DamageAmount)
 {
 	PlayerHealth -= DamageAmount;
-	UpdateHud.Broadcast(); 
 	UE_LOG(LogTemp, Warning, TEXT("Health: %f"), PlayerHealth);
+}
+
+ABattleArenaPlayerState::ABattleArenaPlayerState()
+{
+	bReplicates = true;
 }
 
 void ABattleArenaPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
