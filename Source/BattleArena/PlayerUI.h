@@ -15,11 +15,12 @@ UCLASS()
 class BATTLEARENA_API UPlayerUI : public UUserWidget
 {
 	GENERATED_BODY()
-
-	UPROPERTY(meta=(BindWidget))
-	UProgressBar* PlayerHealthBar;
 	
 private:
 	virtual bool Initialize() override;
-	
+
+public:
+
+	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
+	void UpdateUI();
 };

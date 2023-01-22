@@ -14,4 +14,5 @@ class BATTLEARENA_API ABattleArenaPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+	
 };

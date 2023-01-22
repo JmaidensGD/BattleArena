@@ -46,6 +46,13 @@ public:
     float PlayerHealth;
     UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
     float MaxHealth;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	UPlayerUI* PlayerUI;
+
+	UFUNCTION(Client,Reliable)
+	void UpdateUI();
+	
 	
 protected:
 

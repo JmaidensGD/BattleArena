@@ -2,6 +2,7 @@
 
 #include "BattleArenaCharacter.h"
 
+#include "BattleArenaGameState.h"
 #include "BattleArenaPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -105,6 +106,11 @@ float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& 
 	PlayerHealth -= DamageAmount;
 	UE_LOG(LogTemp, Warning, TEXT("taken damage"));
 	return DamageAmount;
+}
+
+void ABattleArenaCharacter::UpdateUI_Implementation()
+{
+	PlayerUI->UpdateUI();
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)
