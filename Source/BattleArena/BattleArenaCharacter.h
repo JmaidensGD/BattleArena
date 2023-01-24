@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "InputMappingContext.h"
+#include "PlayerUI.h"
 #include "BattleArenaCharacter.generated.h"
 
 
@@ -40,7 +42,18 @@ class ABattleArenaCharacter : public ACharacter
 public:
 	ABattleArenaCharacter();
 	
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
+    float PlayerHealth;
+    UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
+    float MaxHealth;
 
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	UPlayerUI* PlayerUI;
+
+	UFUNCTION(Client,Reliable)
+	void UpdateUI();
+	
+	
 protected:
 
 	/** Called for movement input */
@@ -53,7 +66,8 @@ protected:
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	// To add mapping context
 	virtual void BeginPlay();
 

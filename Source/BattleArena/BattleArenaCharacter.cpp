@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BattleArenaCharacter.h"
+
+#include "BattleArenaGameState.h"
+#include "BattleArenaPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -9,6 +12,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/PlayerState.h"
+#include "Net/UnrealNetwork.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -66,6 +71,13 @@ void ABattleArenaCharacter::BeginPlay()
 	}
 }
 
+void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ABattleArenaCharacter,MaxHealth);
+	DOREPLIFETIME(ABattleArenaCharacter,PlayerHealth);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -86,6 +98,19 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 	}
 
+}
+
+float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
+	AController* EventInstigator, AActor* DamageCauser)
+{
+	PlayerHealth -= DamageAmount;
+	UE_LOG(LogTemp, Warning, TEXT("taken damage"));
+	return DamageAmount;
+}
+
+void ABattleArenaCharacter::UpdateUI_Implementation()
+{
+	PlayerUI->UpdateUI();
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)
