@@ -7,6 +7,28 @@
 #include "Interfaces/OnlineSessionInterface.h"
 #include "BattleArenaGameInstance.generated.h"
 
+USTRUCT(BlueprintType)
+struct FServerInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadOnly)
+	FString ServerName;
+	UPROPERTY(BlueprintReadOnly)
+	FString PlayerCountString;
+	UPROPERTY(BlueprintReadOnly)
+	int32 CurrentPlayers;
+	UPROPERTY(BlueprintReadOnly)
+	int32 MaxPlayers;
+
+	void SetPlayerCount()
+	{
+		PlayerCountString = FString::FromInt(CurrentPlayers) + "/" + FString::FromInt(MaxPlayers);
+	}
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDelegate, FServerInfo, ServerListDelegate);
+
 /**
  * 
  */
@@ -21,7 +43,9 @@ public:
 
 
 protected:
-	
+
+	UPROPERTY(BlueprintAssignable)
+	FServerDelegate ServerListDelegate;
 
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
 	
@@ -32,7 +56,7 @@ protected:
 	virtual void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 	UFUNCTION(BlueprintCallable)
-	void CreateServer();
+	void CreateServer(FString ServerName, FString HostName);
 	UFUNCTION(BlueprintCallable)
 	void JoinServer();
 };

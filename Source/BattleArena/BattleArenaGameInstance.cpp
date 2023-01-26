@@ -43,12 +43,32 @@ void UBattleArenaGameInstance::OnFindSessionComplete(bool Success)
 	{
 		TArray<FOnlineSessionSearchResult> SearchResults = SessionSearch->SearchResults;
 
+		for (FOnlineSessionSearchResult SearchResult : SearchResults)
+		{
+			if(!SearchResult.IsValid())
+				continue;
+
+			FServerInfo ServerInfo;
+			FString ServerName = "Placeholder Server Name";
+			FString HostName = "Placeholder Server Host Name";
+
+			SearchResult.Session.SessionSettings.Get(FName("ServerNameKey"), ServerName);
+			SearchResult.Session.SessionSettings.Get(FName("ServerHostNameKey"), HostName);
+			
+			ServerInfo.ServerName = ServerName;
+			ServerInfo.MaxPlayers = SearchResult.Session.SessionSettings.NumPublicConnections;
+			ServerInfo.CurrentPlayers = ServerInfo.MaxPlayers - SearchResult.Session.NumOpenPublicConnections;
+			ServerInfo.SetPlayerCount();
+			
+			ServerListDelegate.Broadcast(ServerInfo);
+		}
+
 		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SearchResults.Num());
 		
 		if(SearchResults.Num())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Joining Server"));
-			SessionInterface->JoinSession(0,"Base Session Name", SearchResults[0]);
+			//UE_LOG(LogTemp, Warning, TEXT("Joining Server"));
+			//SessionInterface->JoinSession(0,"Base Session Name", SearchResults[0]);
 		}
 		
 	}
@@ -68,7 +88,7 @@ void UBattleArenaGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinS
 	}
 }
 
-void UBattleArenaGameInstance::CreateServer()
+void UBattleArenaGameInstance::CreateServer(FString ServerName, FString HostName)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Creating Server"))
 	
@@ -79,6 +99,8 @@ void UBattleArenaGameInstance::CreateServer()
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
 	SessionSettings.NumPublicConnections = 5;
+	SessionSettings.Set(FName("ServerNameKey"), ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	SessionSettings.Set(FName("ServerHostNameKey"), HostName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	SessionInterface->CreateSession(0, FName("Base Session Name"), SessionSettings);
 }

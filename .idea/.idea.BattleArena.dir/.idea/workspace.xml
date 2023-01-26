@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30e334ee-4f07-43e1-8e93-5d65afc17f4a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level2.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level2.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Maps/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Maps/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/Network/MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Network/MainMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +125,7 @@
       <workItem from="1674411524307" duration="6103000" />
       <workItem from="1674501243741" duration="3714000" />
       <workItem from="1674657596004" duration="53000" />
+      <workItem from="1674689003090" duration="3305000" />
     </task>
     <servers />
   </component>
