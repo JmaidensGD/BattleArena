@@ -3,6 +3,7 @@
 #include "BattleArenaCharacter.h"
 
 #include "BattleArenaGameState.h"
+#include "BattleArenaPlayerController.h"
 #include "BattleArenaPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -90,6 +91,8 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
+
+		EnhancedInputComponent->BindAction(SpectateAction, ETriggerEvent::Triggered, this, &ABattleArenaCharacter::Spectate);
 		//Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ABattleArenaCharacter::Move);
 
@@ -149,6 +152,13 @@ void ABattleArenaCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void ABattleArenaCharacter::Spectate_Implementation()
+{
+	if(ABattleArenaPlayerController* PC = GetController<ABattleArenaPlayerController>())
+	{
+		PC->SetPlayerSpectate();
+	}
+}
 
 
 

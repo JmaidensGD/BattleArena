@@ -39,6 +39,9 @@ class ABattleArenaCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* SpectateAction;
+
 public:
 	ABattleArenaCharacter();
 	
@@ -61,7 +64,9 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-			
+
+	UFUNCTION(Server,Reliable)
+	void Spectate();
 
 protected:
 	// APawn interface
