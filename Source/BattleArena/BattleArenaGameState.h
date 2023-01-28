@@ -26,7 +26,7 @@ public:
 	int Round;
 
 	UFUNCTION(Server,Reliable,BlueprintCallable)
-	void AddScore(int winner);
+	void AddScore(int32 WinnerID);
 
 	UPROPERTY(BlueprintAssignable)
 	FOnScoreChangedSignature OnScoreChangedSignature;

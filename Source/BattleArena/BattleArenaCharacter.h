@@ -55,7 +55,9 @@ public:
 
 	UFUNCTION(Client,Reliable)
 	void UpdateUI();
-	
+
+	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
+	void RoundEnd(int Winner);
 	
 protected:
 

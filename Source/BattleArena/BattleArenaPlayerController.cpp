@@ -6,6 +6,7 @@
 #include "BattleArenaHUD.h"
 #include "Enums.h"
 #include "GameFramework/PlayerState.h"
+#include "Net/UnrealNetwork.h"
 
 void ABattleArenaPlayerController::SetPlayerPlay()
 {
@@ -67,4 +68,11 @@ void ABattleArenaPlayerController::ClientHUDStateChanged_Implementation(EHUDStat
 	{
 		HUD->OnStateChanged(NewState);
 	}
+}
+
+void ABattleArenaPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ABattleArenaPlayerController, PlayerID);
+
 }

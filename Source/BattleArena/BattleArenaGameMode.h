@@ -31,4 +31,7 @@ protected:
 	bool MinigameComplete;
 	
 	FTimerHandle LootTimer;
+
+	UPROPERTY()
+	int32 NextID;
 };

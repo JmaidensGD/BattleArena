@@ -15,6 +15,10 @@ void ABattleArenaGameState::AddScore_Implementation(int winner)
 		Round++;
 		for (APlayerState* PlayerState : PlayerArray)
 		{
+			if (ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>())
+			{
+				PC->RoundEnd(winner);
+			}
 			UE_LOG(LogTemp, Warning, TEXT("PLAYER"));
 			ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>();
 			if(PC)
