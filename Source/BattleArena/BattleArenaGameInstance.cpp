@@ -8,6 +8,7 @@
 
 UBattleArenaGameInstance::UBattleArenaGameInstance()
 {
+	MySessionName = FName("Base Session Name");
 }
 
 void UBattleArenaGameInstance::Init()
@@ -26,7 +27,7 @@ void UBattleArenaGameInstance::Init()
 	}
 }
 
-void UBattleArenaGameInstance::OnCreateSessionComplete(FName ServerName, bool Success)
+void UBattleArenaGameInstance::OnCreateSessionComplete(FName SessionName, bool Success)
 {
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Success)
 	if(Success)
@@ -37,17 +38,19 @@ void UBattleArenaGameInstance::OnCreateSessionComplete(FName ServerName, bool Su
 
 void UBattleArenaGameInstance::OnFindSessionComplete(bool Success)
 {
+	SearchingForServer.Broadcast(false);
+	
 	UE_LOG(LogTemp, Warning, TEXT("OnFindSessionComplete, Succeeded: %d"), Success)
 
 	if(Success)
 	{
-		TArray<FOnlineSessionSearchResult> SearchResults = SessionSearch->SearchResults;
+		int8 ArrayIndex = 0;
 
-		for (FOnlineSessionSearchResult SearchResult : SearchResults)
+		for (FOnlineSessionSearchResult SearchResult : SessionSearch->SearchResults)
 		{
+			
 			if(!SearchResult.IsValid())
 				continue;
-
 			FServerInfo ServerInfo;
 			FString ServerName = "Placeholder Server Name";
 			FString HostName = "Placeholder Server Host Name";
@@ -58,14 +61,17 @@ void UBattleArenaGameInstance::OnFindSessionComplete(bool Success)
 			ServerInfo.ServerName = ServerName;
 			ServerInfo.MaxPlayers = SearchResult.Session.SessionSettings.NumPublicConnections;
 			ServerInfo.CurrentPlayers = ServerInfo.MaxPlayers - SearchResult.Session.NumOpenPublicConnections;
+			ServerInfo.ServerIndex = ArrayIndex;
 			ServerInfo.SetPlayerCount();
 			
 			ServerListDelegate.Broadcast(ServerInfo);
+			ArrayIndex++;
+
 		}
 
-		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SearchResults.Num());
+		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SessionSearch->SearchResults.Num());
 		
-		if(SearchResults.Num())
+		if(SessionSearch->SearchResults.Num())
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("Joining Server"));
 			//SessionInterface->JoinSession(0,"Base Session Name", SearchResults[0]);
@@ -95,24 +101,47 @@ void UBattleArenaGameInstance::CreateServer(FString ServerName, FString HostName
 	FOnlineSessionSettings SessionSettings;
 	SessionSettings.bAllowJoinInProgress = true;
 	SessionSettings.bIsDedicated = false;
-	SessionSettings.bIsLANMatch = true;
+	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
+		SessionSettings.bIsLANMatch = false;
+	else
+		SessionSettings.bIsLANMatch = true;
+	
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
 	SessionSettings.NumPublicConnections = 5;
 	SessionSettings.Set(FName("ServerNameKey"), ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	SessionSettings.Set(FName("ServerHostNameKey"), HostName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
-	SessionInterface->CreateSession(0, FName("Base Session Name"), SessionSettings);
+	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
 }
 
-void UBattleArenaGameInstance::JoinServer()
+void UBattleArenaGameInstance::FindServers()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Joining Server"))
+	SearchingForServer.Broadcast(true);
+	
+	UE_LOG(LogTemp, Warning, TEXT("Finding Server"))
 	
 	SessionSearch=MakeShareable(new FOnlineSessionSearch());
-	SessionSearch->bIsLanQuery = true;
-	SessionSearch->MaxSearchResults = 10000;
+	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
+		SessionSearch->bIsLanQuery = false;
+	else
+		SessionSearch->bIsLanQuery = true;
+	
+	SessionSearch->MaxSearchResults = 100;
 	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 	
 	SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
+}
+
+void UBattleArenaGameInstance::JoinServer(int32 ArrayIndex)
+{
+	FOnlineSessionSearchResult Result = SessionSearch->SearchResults[ArrayIndex];
+	if(Result.IsValid())
+	{
+		SessionInterface->JoinSession(0,MySessionName,Result);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("FAILED TO JOIN SERVER, %d"), ArrayIndex);
+	}
 }
