@@ -29,6 +29,8 @@ protected:
 	void EndLooting();
 
 	bool MinigameComplete;
+	
+	float CountdownLength;
 
 	virtual void Tick(float DeltaSeconds) override;
 

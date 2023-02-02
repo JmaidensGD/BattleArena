@@ -20,6 +20,7 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
+	CountdownLength = 60.0f;
 }
 
 
@@ -81,9 +82,8 @@ void ABattleArenaGameMode::EndLooting()
 void ABattleArenaGameMode::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	UE_LOG(LogTemp, Warning, TEXT("TEST"));
 	if(ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>())
 	{
-		GS->UpdateTimer();
+		GS->UpdateTimer(CountdownLength);
 	}
 }

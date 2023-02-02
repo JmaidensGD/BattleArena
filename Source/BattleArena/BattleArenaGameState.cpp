@@ -15,7 +15,6 @@ void ABattleArenaGameState::AddScore_Implementation(int winner)
 		rounds++;
 		for (APlayerState* PlayerState : PlayerArray)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("PLAYER"));
 			ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>();
 			if(PC)
 			{
@@ -31,10 +30,9 @@ ABattleArenaGameState::ABattleArenaGameState()
 	Results.Init(0,5);
 }
 
-void ABattleArenaGameState::UpdateTimer_Implementation()
+void ABattleArenaGameState::UpdateTimer_Implementation(float Length)
 {
-	LootTimerValue = GetWorldTimerManager().GetTimerElapsed(LootTimer);
-	UE_LOG(LogTemp, Warning, TEXT("UPDATING TIMER"));
+	LootTimerValue = Length - GetWorldTimerManager().GetTimerElapsed(LootTimer);
 }
 
 void ABattleArenaGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

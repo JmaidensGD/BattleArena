@@ -29,7 +29,7 @@ public:
 	void AddScore(int winner);
 
 	UFUNCTION(Client,Reliable,BlueprintCallable)
-	void UpdateTimer();
+	void UpdateTimer(float Length);
 
 	UPROPERTY(BlueprintAssignable)
 	FOnScoreChangedSignature OnScoreChangedSignature;
