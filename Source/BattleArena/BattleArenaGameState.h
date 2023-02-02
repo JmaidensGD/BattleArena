@@ -23,12 +23,22 @@ public:
 	TArray<int> Results;
 
 	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
-	int Round;
+	int rounds;
+
+	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
+	int potato;
 
 	UFUNCTION(Server,Reliable,BlueprintCallable)
 	void AddScore(int winner);
 
+	UFUNCTION()
+	void UpdateValue();
+
 	UPROPERTY(BlueprintAssignable)
 	FOnScoreChangedSignature OnScoreChangedSignature;
+	
+	UPROPERTY()
+	FTimerHandle LootTimer;
+
 	
 };

@@ -3,9 +3,11 @@
 #include "BattleArenaGameMode.h"
 #include "BattleArenaCharacter.h"
 #include "BattleArenaGameInstance.h"
+#include "BattleArenaGameState.h"
 #include "BattleArenaPlayerState.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 #include "UObject/ConstructorHelpers.h"
 
 ABattleArenaGameMode::ABattleArenaGameMode()
@@ -64,7 +66,9 @@ void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
 
 void ABattleArenaGameMode::SetLootTimer()
 {
-	GetWorldTimerManager().SetTimer(LootTimer, this,&ABattleArenaGameMode::EndLooting, 5.0f,false,5.0f);
+	ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>();
+	GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, 30.0f,false,30.0f);
+	
 }
 
 void ABattleArenaGameMode::EndLooting()

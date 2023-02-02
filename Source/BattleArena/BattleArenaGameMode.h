@@ -29,6 +29,5 @@ protected:
 	void EndLooting();
 
 	bool MinigameComplete;
-	
-	FTimerHandle LootTimer;
+
 };
