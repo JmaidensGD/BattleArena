@@ -31,9 +31,10 @@ ABattleArenaGameState::ABattleArenaGameState()
 	Results.Init(0,5);
 }
 
-void ABattleArenaGameState::UpdateValue()
+void ABattleArenaGameState::UpdateTimer_Implementation()
 {
-	//LootTimerValue = GetWorldTimerManager().GetTimerElapsed(LootTimer);
+	LootTimerValue = GetWorldTimerManager().GetTimerElapsed(LootTimer);
+	UE_LOG(LogTemp, Warning, TEXT("UPDATING TIMER"));
 }
 
 void ABattleArenaGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -41,5 +42,8 @@ void ABattleArenaGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ABattleArenaGameState, Results);
 	DOREPLIFETIME(ABattleArenaGameState, rounds);
-	DOREPLIFETIME(ABattleArenaGameState, potato);
+	DOREPLIFETIME(ABattleArenaGameState, LootTimer);
+	DOREPLIFETIME(ABattleArenaGameState, LootTimerValue);
+
+
 }

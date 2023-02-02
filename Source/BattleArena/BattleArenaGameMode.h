@@ -30,4 +30,6 @@ protected:
 
 	bool MinigameComplete;
 
+	virtual void Tick(float DeltaSeconds) override;
+
 };

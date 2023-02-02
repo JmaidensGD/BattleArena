@@ -18,6 +18,8 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 
@@ -47,8 +49,6 @@ void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
 	PC->MaxHealth = 100.0f;
 	PC->PlayerHealth = PC->MaxHealth;
-
-	UE_LOG(LogTemp, Warning, TEXT("PostLogin: %f"), PC->MaxHealth);
 }
 
 void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
@@ -67,11 +67,23 @@ void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
 void ABattleArenaGameMode::SetLootTimer()
 {
 	ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>();
-	GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, 30.0f,false,30.0f);
-	
+	if(GS)
+	{
+		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, 30.0f,false,30.0f);
+	}
 }
 
 void ABattleArenaGameMode::EndLooting()
 {
 	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level2", ETravelType::TRAVEL_Absolute);
+}
+
+void ABattleArenaGameMode::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	UE_LOG(LogTemp, Warning, TEXT("TEST"));
+	if(ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>())
+	{
+		GS->UpdateTimer();
+	}
 }

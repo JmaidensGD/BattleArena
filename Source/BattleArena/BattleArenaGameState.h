@@ -25,20 +25,18 @@ public:
 	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
 	int rounds;
 
-	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
-	int potato;
-
 	UFUNCTION(Server,Reliable,BlueprintCallable)
 	void AddScore(int winner);
 
-	UFUNCTION()
-	void UpdateValue();
+	UFUNCTION(Client,Reliable,BlueprintCallable)
+	void UpdateTimer();
 
 	UPROPERTY(BlueprintAssignable)
 	FOnScoreChangedSignature OnScoreChangedSignature;
-	
-	UPROPERTY()
-	FTimerHandle LootTimer;
 
+	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
+	float LootTimerValue;
 	
+	UPROPERTY(Replicated)
+	FTimerHandle LootTimer;
 };
