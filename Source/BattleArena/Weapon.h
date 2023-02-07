@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enums.h"
+#include "PDA_WeaponBase.h"
 #include "WeaponStats.h"
 #include "Engine/DataTable.h"
 #include "GameFramework/Actor.h"
@@ -28,13 +29,8 @@ protected:
 	UPROPERTY()
 	float DamageAmount;
 
-	UPROPERTY(BlueprintReadWrite)
-	EWeaponType WeaponType;
-
 	UPROPERTY(EditAnywhere)
-	UDataTable* WeaponStatsTable;
-
-	FWeaponStats* WeaponRow;
+	UPDA_WeaponBase* WeaponData;
 
 public:	
 
@@ -42,7 +38,6 @@ public:
 
 	virtual void StopAttack();
 
-	UFUNCTION()
-	void SetupWeapon();
+	virtual void SetupWeapon();
 
 };

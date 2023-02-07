@@ -24,16 +24,9 @@ void AWeapon::StopAttack(){}
 
 void AWeapon::SetupWeapon()
 {
-	TArray<FName> Rows = WeaponStatsTable->GetRowNames();
-
-	for (FName Row : Rows)
+	if(WeaponData)
 	{
-		WeaponRow = WeaponStatsTable->FindRow<FWeaponStats>(Row,"");
-		if(WeaponRow->WeaponType == WeaponType)
-		{
-			break;
-		}
+		DamageAmount = WeaponData->Damage;
+		WeaponMesh->SetSkeletalMesh(WeaponData->Mesh);
 	}
-	DamageAmount = WeaponRow->Damage;
 }
-
