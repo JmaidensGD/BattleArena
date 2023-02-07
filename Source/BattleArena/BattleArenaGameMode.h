@@ -30,8 +30,8 @@ protected:
 
 	bool MinigameComplete;
 	
-	float CountdownLength;
+	FTimerHandle LootTimer;
 
-	virtual void Tick(float DeltaSeconds) override;
-
+	UPROPERTY()
+	int32 NextID;
 };

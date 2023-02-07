@@ -8,7 +8,6 @@
 
 UBattleArenaGameInstance::UBattleArenaGameInstance()
 {
-	MySessionName = FName("Base Session Name");
 }
 
 void UBattleArenaGameInstance::Init()
@@ -27,7 +26,7 @@ void UBattleArenaGameInstance::Init()
 	}
 }
 
-void UBattleArenaGameInstance::OnCreateSessionComplete(FName SessionName, bool Success)
+void UBattleArenaGameInstance::OnCreateSessionComplete(FName ServerName, bool Success)
 {
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Success)
 	if(Success)
@@ -38,43 +37,18 @@ void UBattleArenaGameInstance::OnCreateSessionComplete(FName SessionName, bool S
 
 void UBattleArenaGameInstance::OnFindSessionComplete(bool Success)
 {
-	SearchingForServer.Broadcast(false);
-	
 	UE_LOG(LogTemp, Warning, TEXT("OnFindSessionComplete, Succeeded: %d"), Success)
 
 	if(Success)
 	{
-		int8 ArrayIndex = 0;
+		TArray<FOnlineSessionSearchResult> SearchResults = SessionSearch->SearchResults;
 
-		for (FOnlineSessionSearchResult SearchResult : SessionSearch->SearchResults)
-		{
-			
-			if(!SearchResult.IsValid())
-				continue;
-			FServerInfo ServerInfo;
-			FString ServerName = "Placeholder Server Name";
-			FString HostName = "Placeholder Server Host Name";
-
-			SearchResult.Session.SessionSettings.Get(FName("ServerNameKey"), ServerName);
-			SearchResult.Session.SessionSettings.Get(FName("ServerHostNameKey"), HostName);
-			
-			ServerInfo.ServerName = ServerName;
-			ServerInfo.MaxPlayers = SearchResult.Session.SessionSettings.NumPublicConnections;
-			ServerInfo.CurrentPlayers = ServerInfo.MaxPlayers - SearchResult.Session.NumOpenPublicConnections;
-			ServerInfo.ServerIndex = ArrayIndex;
-			ServerInfo.SetPlayerCount();
-			
-			ServerListDelegate.Broadcast(ServerInfo);
-			ArrayIndex++;
-
-		}
-
-		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SessionSearch->SearchResults.Num());
+		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SearchResults.Num());
 		
-		if(SessionSearch->SearchResults.Num())
+		if(SearchResults.Num())
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("Joining Server"));
-			//SessionInterface->JoinSession(0,"Base Session Name", SearchResults[0]);
+			UE_LOG(LogTemp, Warning, TEXT("Joining Server"));
+			SessionInterface->JoinSession(0,"Base Session Name", SearchResults[0]);
 		}
 		
 	}
@@ -94,54 +68,29 @@ void UBattleArenaGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinS
 	}
 }
 
-void UBattleArenaGameInstance::CreateServer(FString ServerName, FString HostName)
+void UBattleArenaGameInstance::CreateServer()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Creating Server"))
 	
 	FOnlineSessionSettings SessionSettings;
 	SessionSettings.bAllowJoinInProgress = true;
 	SessionSettings.bIsDedicated = false;
-	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
-		SessionSettings.bIsLANMatch = false;
-	else
-		SessionSettings.bIsLANMatch = true;
-	
+	SessionSettings.bIsLANMatch = true;
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
 	SessionSettings.NumPublicConnections = 5;
-	SessionSettings.Set(FName("ServerNameKey"), ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
-	SessionSettings.Set(FName("ServerHostNameKey"), HostName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
-	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
+	SessionInterface->CreateSession(0, FName("Base Session Name"), SessionSettings);
 }
 
-void UBattleArenaGameInstance::FindServers()
+void UBattleArenaGameInstance::JoinServer()
 {
-	SearchingForServer.Broadcast(true);
-	
-	UE_LOG(LogTemp, Warning, TEXT("Finding Server"))
+	UE_LOG(LogTemp, Warning, TEXT("Joining Server"))
 	
 	SessionSearch=MakeShareable(new FOnlineSessionSearch());
-	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
-		SessionSearch->bIsLanQuery = false;
-	else
-		SessionSearch->bIsLanQuery = true;
-	
-	SessionSearch->MaxSearchResults = 100;
+	SessionSearch->bIsLanQuery = true;
+	SessionSearch->MaxSearchResults = 10000;
 	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 	
 	SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
-}
-
-void UBattleArenaGameInstance::JoinServer(int32 ArrayIndex)
-{
-	FOnlineSessionSearchResult Result = SessionSearch->SearchResults[ArrayIndex];
-	if(Result.IsValid())
-	{
-		SessionInterface->JoinSession(0,MySessionName,Result);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("FAILED TO JOIN SERVER, %d"), ArrayIndex);
-	}
 }
