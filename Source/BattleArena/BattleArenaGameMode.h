@@ -30,5 +30,8 @@ protected:
 
 	bool MinigameComplete;
 	
-	FTimerHandle LootTimer;
+	float CountdownLength;
+
+	virtual void Tick(float DeltaSeconds) override;
+
 };
