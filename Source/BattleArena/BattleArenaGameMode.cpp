@@ -3,6 +3,7 @@
 #include "BattleArenaGameMode.h"
 #include "BattleArenaCharacter.h"
 #include "BattleArenaGameInstance.h"
+#include "BattleArenaPlayerController.h"
 #include "BattleArenaGameState.h"
 #include "BattleArenaPlayerState.h"
 #include "GameFramework/PlayerStart.h"
@@ -14,6 +15,7 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter"));
+	//NextID = 0;
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
@@ -46,7 +48,12 @@ AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Play
 void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
-	
+	if (ABattleArenaPlayerController* PlayerController = Cast<ABattleArenaPlayerController>(NewPlayer))
+	{
+		PlayerController->PlayerID = NextID;
+		UE_LOG(LogTemp, Warning, TEXT("PostLogin: %i"), PlayerController->PlayerID);
+	}	
+	NextID++;
 	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
 	PC->MaxHealth = 100.0f;
 	PC->PlayerHealth = PC->MaxHealth;

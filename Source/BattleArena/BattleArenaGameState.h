@@ -26,7 +26,7 @@ public:
 	int rounds;
 
 	UFUNCTION(Server,Reliable,BlueprintCallable)
-	void AddScore(int winner);
+	void AddScore(int32 WinnerID);
 
 	UFUNCTION(Client,Reliable,BlueprintCallable)
 	void UpdateTimer(float Length);

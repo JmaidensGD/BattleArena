@@ -19,3 +19,11 @@ enum class EWeaponType : uint8
 	DAGGER UMETA(DisplayName = "Dagger"),
 	AXE UMETA(DisplayName = "Axe"),
 };
+
+UENUM(BlueprintType)
+enum class EHUDState : uint8
+{
+	Playing,
+	Spectating,
+	Inactive
+};
