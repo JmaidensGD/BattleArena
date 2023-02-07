@@ -34,4 +34,8 @@ protected:
 
 	UPROPERTY()
 	int32 NextID;
+	float CountdownLength;
+
+	virtual void Tick(float DeltaSeconds) override;
+
 };
