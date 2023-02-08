@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/Image.h"
 #include "Engine/DataAsset.h"
 #include "PDA_WeaponBase.generated.h"
 
@@ -15,13 +16,16 @@ class BATTLEARENA_API UPDA_WeaponBase : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
-
-	UPROPERTY(EditAnywhere)
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTexture2D* WeaponSprite;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USkeletalMesh* Mesh;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Damage;
 	
 };

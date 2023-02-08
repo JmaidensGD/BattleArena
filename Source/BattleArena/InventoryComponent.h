@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MeleeWeapon.h"
+#include "PDA_WeaponBase.h"
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 

@@ -3,8 +3,3 @@
 
 #include "MeleeWeapon.h"
 
-void AMeleeWeapon::Interact_Implementation()
-{
-	IInteractable::Interact_Implementation();
-	UE_LOG(LogTemp, Warning, TEXT("Interacted melee"));
-}

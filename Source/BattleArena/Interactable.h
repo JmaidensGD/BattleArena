@@ -25,5 +25,5 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category=Interactable)
 	bool CanInteract();
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Interactable)
-	void Interact();
+	void Interact(ABattleArenaCharacter* Player);
 };

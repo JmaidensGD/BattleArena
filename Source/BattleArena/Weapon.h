@@ -41,7 +41,7 @@ public:
 
 	virtual void SetupWeapon();
 
-	virtual void Interact_Implementation() override;
+	virtual void Interact_Implementation(ABattleArenaCharacter* Player) override;
 
 	virtual bool CanInteract_Implementation() override;
 

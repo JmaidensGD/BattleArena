@@ -23,4 +23,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void UpdateUI();
+	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
+	void UpdateInventory();
+	
 };

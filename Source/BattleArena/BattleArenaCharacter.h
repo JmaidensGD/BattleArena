@@ -6,11 +6,9 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
-#include "InventoryComponent.h"
-#include "MeleeWeapon.h"
 #include "PlayerUI.h"
+#include "Weapon.h"
 #include "BattleArenaCharacter.generated.h"
-
 
 UCLASS(config=Game)
 class ABattleArenaCharacter : public ACharacter
@@ -25,10 +23,7 @@ class ABattleArenaCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AMeleeWeapon> MeleeWeapon;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
 	class UInventoryComponent* InventoryComponent;
 	
 	/** MappingContext */
@@ -68,6 +63,12 @@ public:
 
 	UFUNCTION(Client,Reliable)
 	void UpdateUI();
+
+	UFUNCTION(Client,Reliable)
+	void UpdateInventory();
+	
+	UFUNCTION(Server,Reliable)
+	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
 
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void RoundEnd(int Winner);

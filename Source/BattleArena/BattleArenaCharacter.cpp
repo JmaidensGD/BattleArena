@@ -13,7 +13,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "MeleeWeapon.h"
+#include "Interactable.h"
+#include "InventoryComponent.h"
 #include "GameFramework/PlayerState.h"
 #include "HAL/Platform.h"
 #include "Net/UnrealNetwork.h"
@@ -111,7 +112,7 @@ void ABattleArenaCharacter::Interact()
 			{
 				if (IInteractable::Execute_CanInteract(HitResult.GetActor()))
 				{
-					IInteractable::Execute_Interact(HitResult.GetActor());
+					IInteractable::Execute_Interact(HitResult.GetActor(), this);
 				}
 			}
 		}
@@ -151,6 +152,21 @@ float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& 
 void ABattleArenaCharacter::UpdateUI_Implementation()
 {
 	PlayerUI->UpdateUI();
+}
+
+void ABattleArenaCharacter::PickupWeapon_Implementation(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor)
+{
+	UE_LOG(LogTemp, Warning, TEXT("PICKUP SERVER"));
+    InventoryComponent->Weapons.Add(Weapon);
+	UpdateInventory();
+	WeaponActor->Destroy();
+	UE_LOG(LogTemp, Warning, TEXT("Damage : %s"), *FString::SanitizeFloat(InventoryComponent->Weapons[0]->Damage));
+	//InventoryComponent->Weapons.Add(Weapon);
+}
+
+void ABattleArenaCharacter::UpdateInventory_Implementation()
+{
+	PlayerUI->UpdateInventory();
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)
