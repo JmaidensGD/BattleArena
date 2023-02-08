@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enums.h"
+#include "Interactable.h"
 #include "PDA_WeaponBase.h"
 #include "WeaponStats.h"
 #include "Engine/DataTable.h"
@@ -11,7 +12,7 @@
 #include "Weapon.generated.h"
 
 UCLASS()
-class BATTLEARENA_API AWeapon : public AActor
+class BATTLEARENA_API AWeapon : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 	
@@ -39,5 +40,9 @@ public:
 	virtual void StopAttack();
 
 	virtual void SetupWeapon();
+
+	virtual void Interact_Implementation() override;
+
+	virtual bool CanInteract_Implementation() override;
 
 };

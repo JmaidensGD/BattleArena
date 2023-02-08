@@ -50,6 +50,8 @@ ABattleArenaCharacter::ABattleArenaCharacter()
 	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
+
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
@@ -90,6 +92,32 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 //////////////////////////////////////////////////////////////////////////
 // Input
 
+void ABattleArenaCharacter::Interact()
+{
+	UE_LOG(LogTemp, Warning, TEXT("PRESSED!"));
+	APlayerController* MyController = Cast<APlayerController>(Controller);
+	if (MyController)
+	{
+		APlayerCameraManager* MyCameraManager = MyController->PlayerCameraManager;
+		auto StartLocation = MyCameraManager->GetCameraLocation();
+		auto  EndLocation = MyCameraManager->GetCameraLocation() + (MyCameraManager->GetActorForwardVector() * 100);
+		FHitResult HitResult;
+		GetWorld()->SweepSingleByObjectType(HitResult, StartLocation, EndLocation, FQuat::Identity, 
+		FCollisionObjectQueryParams(FCollisionObjectQueryParams::AllObjects),FCollisionShape::MakeSphere(25),
+		FCollisionQueryParams(FName("Interaction"),true,this));
+		if (HitResult.GetActor() != nullptr)
+		{
+			if (HitResult.GetActor()->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
+			{
+				if (IInteractable::Execute_CanInteract(HitResult.GetActor()))
+				{
+					IInteractable::Execute_Interact(HitResult.GetActor());
+				}
+			}
+		}
+	}
+}
+
 void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
@@ -99,6 +127,7 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::Interact);
 
 		EnhancedInputComponent->BindAction(SpectateAction, ETriggerEvent::Triggered, this, &ABattleArenaCharacter::Spectate);
 		//Moving

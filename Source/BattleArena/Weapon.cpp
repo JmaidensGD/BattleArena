@@ -8,6 +8,7 @@ AWeapon::AWeapon()
 {
 
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
 }
 
@@ -29,4 +30,15 @@ void AWeapon::SetupWeapon()
 		DamageAmount = WeaponData->Damage;
 		WeaponMesh->SetSkeletalMesh(WeaponData->Mesh);
 	}
+}
+
+void AWeapon::Interact_Implementation()
+{
+	IInteractable::Interact_Implementation();
+	UE_LOG(LogTemp, Warning, TEXT("Interacted"));
+}
+
+bool AWeapon::CanInteract_Implementation()
+{
+	return true;
 }

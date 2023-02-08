@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
+#include "InventoryComponent.h"
 #include "MeleeWeapon.h"
 #include "PlayerUI.h"
 #include "BattleArenaCharacter.generated.h"
@@ -26,6 +27,9 @@ class ABattleArenaCharacter : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AMeleeWeapon> MeleeWeapon;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* InventoryComponent;
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -35,6 +39,9 @@ class ABattleArenaCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InteractAction;
+	
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
@@ -75,6 +82,8 @@ protected:
 
 	UFUNCTION(Server,Reliable)
 	void Spectate();
+
+	void Interact();
 
 protected:
 	// APawn interface

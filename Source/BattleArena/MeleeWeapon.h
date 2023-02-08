@@ -13,5 +13,7 @@ UCLASS()
 class BATTLEARENA_API AMeleeWeapon : public AWeapon
 {
 	GENERATED_BODY()
+
+	virtual void Interact_Implementation() override;
 	
 };
