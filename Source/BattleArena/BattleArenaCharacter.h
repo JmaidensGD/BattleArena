@@ -7,8 +7,8 @@
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
 #include "PlayerUI.h"
+#include "Weapon.h"
 #include "BattleArenaCharacter.generated.h"
-
 
 UCLASS(config=Game)
 class ABattleArenaCharacter : public ACharacter
@@ -22,6 +22,9 @@ class ABattleArenaCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* InventoryComponent;
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -31,6 +34,9 @@ class ABattleArenaCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InteractAction;
+	
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
@@ -41,6 +47,8 @@ class ABattleArenaCharacter : public ACharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* SpectateAction;
+
+	
 
 public:
 	ABattleArenaCharacter();
@@ -56,6 +64,12 @@ public:
 	UFUNCTION(Client,Reliable)
 	void UpdateUI();
 
+	UFUNCTION(Client,Reliable)
+	void UpdateInventory();
+	
+	UFUNCTION(Server,Reliable)
+	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
+
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void RoundEnd(int Winner);
 	
@@ -69,6 +83,8 @@ protected:
 
 	UFUNCTION(Server,Reliable)
 	void Spectate();
+
+	void Interact();
 
 protected:
 	// APawn interface

@@ -4,13 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "Enums.h"
+#include "Interactable.h"
+#include "PDA_WeaponBase.h"
 #include "WeaponStats.h"
 #include "Engine/DataTable.h"
 #include "GameFramework/Actor.h"
 #include "Weapon.generated.h"
 
 UCLASS()
-class BATTLEARENA_API AWeapon : public AActor
+class BATTLEARENA_API AWeapon : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 	
@@ -28,13 +30,8 @@ protected:
 	UPROPERTY()
 	float DamageAmount;
 
-	UPROPERTY(BlueprintReadWrite)
-	EWeaponType WeaponType;
-
 	UPROPERTY(EditAnywhere)
-	UDataTable* WeaponStatsTable;
-
-	FWeaponStats* WeaponRow;
+	UPDA_WeaponBase* WeaponData;
 
 public:	
 
@@ -42,7 +39,10 @@ public:
 
 	virtual void StopAttack();
 
-	UFUNCTION()
-	void SetupWeapon();
+	virtual void SetupWeapon();
+
+	virtual void Interact_Implementation(ABattleArenaCharacter* Player) override;
+
+	virtual bool CanInteract_Implementation() override;
 
 };
