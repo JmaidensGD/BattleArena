@@ -7,23 +7,15 @@
     <list default="true" id="30e334ee-4f07-43e1-8e93-5d65afc17f4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/DA_Hammer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/DA_Hammer.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Input/IMC_Default.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Input/IMC_Default.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/UI/Player/PlayerHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Player/PlayerHUD.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/Interactable.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/Interactable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/InventoryComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/InventoryComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/MeleeWeapon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/MeleeWeapon.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/MeleeWeapon.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/MeleeWeapon.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/PDA_WeaponBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/PDA_WeaponBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/PDA_WeaponBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/PDA_WeaponBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/PlayerUI.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/PlayerUI.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/Weapon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/Weapon.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/Weapon.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/Weapon.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,9 +54,6 @@
       <configuration_2>
         <option name="CONFIGURATION" value="DebugGame Editor" />
         <option name="PLATFORM" value="Win64" />
-        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\Win64\UnrealEditor-Win64-DebugGame.exe" />
-        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -72,9 +61,6 @@
       <configuration_3>
         <option name="CONFIGURATION" value="DebugGame" />
         <option name="PLATFORM" value="Win64" />
-        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena-Win64-DebugGame.exe" />
-        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -82,9 +68,6 @@
       <configuration_4>
         <option name="CONFIGURATION" value="Development Editor" />
         <option name="PLATFORM" value="Win64" />
-        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\Win64\UnrealEditor.exe" />
-        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -92,9 +75,6 @@
       <configuration_5>
         <option name="CONFIGURATION" value="Development" />
         <option name="PLATFORM" value="Win64" />
-        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena.exe" />
-        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -102,9 +82,6 @@
       <configuration_6>
         <option name="CONFIGURATION" value="Shipping" />
         <option name="PLATFORM" value="Win64" />
-        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena-Win64-Shipping.exe" />
-        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -148,6 +125,7 @@
       <workItem from="1675802840594" duration="2609000" />
       <workItem from="1675862042537" duration="4435000" />
       <workItem from="1675891461615" duration="5221000" />
+      <workItem from="1675944589088" duration="5751000" />
     </task>
     <servers />
   </component>

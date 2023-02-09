@@ -35,6 +35,9 @@ class ABattleArenaCharacter : public ACharacter
 	class UInputAction* JumpAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* AttackAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction;
 	
 	/** Move Input Action */
@@ -70,6 +73,9 @@ public:
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
 
+	UFUNCTION(Server,Reliable)
+	void AttackRPC();
+
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void RoundEnd(int Winner);
 	
@@ -85,6 +91,9 @@ protected:
 	void Spectate();
 
 	void Interact();
+
+	UFUNCTION(Client,Reliable)
+	void Attack();
 
 protected:
 	// APawn interface

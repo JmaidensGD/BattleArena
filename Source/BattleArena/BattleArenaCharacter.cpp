@@ -17,6 +17,7 @@
 #include "InventoryComponent.h"
 #include "GameFramework/PlayerState.h"
 #include "HAL/Platform.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -119,6 +120,7 @@ void ABattleArenaCharacter::Interact()
 	}
 }
 
+
 void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
@@ -129,6 +131,8 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::Interact);
+
+		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::Attack);
 
 		EnhancedInputComponent->BindAction(SpectateAction, ETriggerEvent::Triggered, this, &ABattleArenaCharacter::Spectate);
 		//Moving
@@ -145,7 +149,7 @@ float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& 
 	AController* EventInstigator, AActor* DamageCauser)
 {
 	PlayerHealth -= DamageAmount;
-	UE_LOG(LogTemp, Warning, TEXT("taken damage"));
+	UE_LOG(LogTemp, Warning, TEXT("taken %s damage"), *FString::FromInt(DamageAmount));
 	return DamageAmount;
 }
 
@@ -167,6 +171,40 @@ void ABattleArenaCharacter::PickupWeapon_Implementation(UPDA_WeaponBase* Weapon,
 void ABattleArenaCharacter::UpdateInventory_Implementation()
 {
 	PlayerUI->UpdateInventory();
+}
+
+void ABattleArenaCharacter::Attack_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
+	AttackRPC_Implementation();
+}
+
+void ABattleArenaCharacter::AttackRPC_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Server Stuff"));
+	APlayerController* MyController = Cast<APlayerController>(Controller);
+	if (MyController)
+	{
+		APlayerCameraManager* MyCameraManager = MyController->PlayerCameraManager;
+		auto StartLocation = MyCameraManager->GetCameraLocation();
+		auto  EndLocation = MyCameraManager->GetCameraLocation() + (MyCameraManager->GetActorForwardVector() * 100);
+		FHitResult HitResult;
+		GetWorld()->SweepSingleByObjectType(HitResult, StartLocation, EndLocation, FQuat::Identity, 
+		FCollisionObjectQueryParams(FCollisionObjectQueryParams::AllObjects),FCollisionShape::MakeSphere(25),
+		FCollisionQueryParams(FName("Attack"),true,this));
+		if (HitResult.GetActor() != nullptr)
+		{
+			if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
+			{
+				UGameplayStatics::ApplyDamage(HitResult.GetActor(),25,GetController(),this,UDamageType::StaticClass());
+				UE_LOG(LogTemp, Warning, TEXT("Damage Applied"));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("NULL"));
+		}
+	}
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)
