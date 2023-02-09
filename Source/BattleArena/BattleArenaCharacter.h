@@ -73,9 +73,6 @@ public:
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
 
-	UFUNCTION(Server,Reliable)
-	void AttackRPC();
-
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void RoundEnd(int Winner);
 	
@@ -92,9 +89,23 @@ protected:
 
 	void Interact();
 
-	UFUNCTION(Client,Reliable)
 	void Attack();
 
+	UFUNCTION(Server,Reliable,WithValidation)
+	void ServerAttack();
+	bool ServerAttack_Validate();
+	void ServerAttack_Implementation();
+
+	UFUNCTION(NetMulticast,Reliable)
+	void MultiDebug(FVector StartLocation,FVector EndLocation,FHitResult HitResult);
+
+	void Die();
+
+	UFUNCTION(NetMulticast,Reliable,WithValidation)
+	void MultiDie();
+	bool MultiDie_Validate();
+	void MultiDie_Implementation();
+	
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

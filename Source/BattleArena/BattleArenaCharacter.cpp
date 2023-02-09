@@ -15,6 +15,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Interactable.h"
 #include "InventoryComponent.h"
+#include "Engine/DamageEvents.h"
 #include "GameFramework/PlayerState.h"
 #include "HAL/Platform.h"
 #include "Kismet/GameplayStatics.h"
@@ -121,6 +122,8 @@ void ABattleArenaCharacter::Interact()
 }
 
 
+
+
 void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
@@ -148,7 +151,16 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
 	AController* EventInstigator, AActor* DamageCauser)
 {
+	const float actualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
 	PlayerHealth -= DamageAmount;
+	if(PlayerHealth<=0.0f)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DEAD"));
+		//DEATH
+		Die();
+	}
+	
 	UE_LOG(LogTemp, Warning, TEXT("taken %s damage"), *FString::FromInt(DamageAmount));
 	return DamageAmount;
 }
@@ -165,7 +177,6 @@ void ABattleArenaCharacter::PickupWeapon_Implementation(UPDA_WeaponBase* Weapon,
 	UpdateInventory();
 	WeaponActor->Destroy();
 	UE_LOG(LogTemp, Warning, TEXT("Damage : %s"), *FString::SanitizeFloat(InventoryComponent->Weapons[0]->Damage));
-	//InventoryComponent->Weapons.Add(Weapon);
 }
 
 void ABattleArenaCharacter::UpdateInventory_Implementation()
@@ -173,31 +184,27 @@ void ABattleArenaCharacter::UpdateInventory_Implementation()
 	PlayerUI->UpdateInventory();
 }
 
-void ABattleArenaCharacter::Attack_Implementation()
+void ABattleArenaCharacter::Attack()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
-	AttackRPC_Implementation();
-}
-
-void ABattleArenaCharacter::AttackRPC_Implementation()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Server Stuff"));
 	APlayerController* MyController = Cast<APlayerController>(Controller);
 	if (MyController)
 	{
-		APlayerCameraManager* MyCameraManager = MyController->PlayerCameraManager;
-		auto StartLocation = MyCameraManager->GetCameraLocation();
-		auto  EndLocation = MyCameraManager->GetCameraLocation() + (MyCameraManager->GetActorForwardVector() * 100);
+		auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
+		auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
 		FHitResult HitResult;
-		GetWorld()->SweepSingleByObjectType(HitResult, StartLocation, EndLocation, FQuat::Identity, 
-		FCollisionObjectQueryParams(FCollisionObjectQueryParams::AllObjects),FCollisionShape::MakeSphere(25),
-		FCollisionQueryParams(FName("Attack"),true,this));
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);
+		QueryParams.bTraceComplex = true;
+
+		GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+		//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+		
 		if (HitResult.GetActor() != nullptr)
 		{
 			if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
 			{
-				UGameplayStatics::ApplyDamage(HitResult.GetActor(),25,GetController(),this,UDamageType::StaticClass());
-				UE_LOG(LogTemp, Warning, TEXT("Damage Applied"));
+				ServerAttack();
 			}
 		}
 		else
@@ -205,6 +212,70 @@ void ABattleArenaCharacter::AttackRPC_Implementation()
 			UE_LOG(LogTemp, Warning, TEXT("NULL"));
 		}
 	}
+}
+
+void ABattleArenaCharacter::ServerAttack_Implementation()
+{
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Server Stuff"));
+		APlayerController* MyController = Cast<APlayerController>(Controller);
+		if (MyController)
+		{
+			auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
+			auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
+			FHitResult HitResult;
+			FCollisionQueryParams QueryParams;
+			QueryParams.AddIgnoredActor(this);
+			QueryParams.bTraceComplex = true;
+
+			GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+			//MultiDebug(StartLocation,EndLocation,HitResult);
+			
+			if (HitResult.GetActor() != nullptr)
+			{
+				if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
+				{
+					Cast<ABattleArenaCharacter>(HitResult.GetActor())->TakeDamage(25,FDamageEvent(),GetController(),this);
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("NULL"));
+			}
+		}
+	}
+}
+
+void ABattleArenaCharacter::MultiDebug_Implementation(FVector StartLocation,FVector EndLocation,FHitResult HitResult)
+{
+	DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+}
+
+
+bool ABattleArenaCharacter::ServerAttack_Validate()
+{
+	return true;
+}
+
+void ABattleArenaCharacter::Die()
+{
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		MultiDie();
+	}
+}
+
+void ABattleArenaCharacter::MultiDie_Implementation()
+{
+	this->GetCharacterMovement()->DisableMovement();
+	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+}
+
+bool ABattleArenaCharacter::MultiDie_Validate()
+{
+	return true;
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)
