@@ -15,6 +15,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Interactable.h"
 #include "InventoryComponent.h"
+#include "MeleeWeapon.h"
 #include "Engine/DamageEvents.h"
 #include "GameFramework/PlayerState.h"
 #include "HAL/Platform.h"
@@ -27,6 +28,7 @@
 
 ABattleArenaCharacter::ABattleArenaCharacter()
 {
+	MaxWeapons = 4;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		
@@ -54,7 +56,9 @@ ABattleArenaCharacter::ABattleArenaCharacter()
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
-
+	
+	//MeleeWeapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeleeWeapon"));
+	//MeleeWeapon->SetupAttachment(GetMesh());
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
@@ -90,6 +94,7 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ABattleArenaCharacter,MaxHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,PlayerHealth);
+	DOREPLIFETIME(ABattleArenaCharacter,EquippedIndex);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -136,6 +141,9 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::Interact);
 
 		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::Attack);
+
+		EnhancedInputComponent->BindAction(NextWeaponAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::NextWeapon);
+		EnhancedInputComponent->BindAction(PreviousWeaponAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::PrevWeapon);
 
 		EnhancedInputComponent->BindAction(SpectateAction, ETriggerEvent::Triggered, this, &ABattleArenaCharacter::Spectate);
 		//Moving
@@ -252,7 +260,6 @@ void ABattleArenaCharacter::MultiDebug_Implementation(FVector StartLocation,FVec
 	DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
 }
 
-
 bool ABattleArenaCharacter::ServerAttack_Validate()
 {
 	return true;
@@ -271,6 +278,32 @@ void ABattleArenaCharacter::MultiDie_Implementation()
 	this->GetCharacterMovement()->DisableMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+}
+
+void ABattleArenaCharacter::EquipWeapon(int32 WeaponIndex)
+{
+	EquippedIndex = WeaponIndex;
+}
+
+void ABattleArenaCharacter::NextWeapon()
+{
+	int32 NewIndex = (EquippedIndex == MaxWeapons-1) ? 0 : EquippedIndex + 1;
+	EquipWeapon(NewIndex);
+	UpdateWeapon();
+	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+}
+
+void ABattleArenaCharacter::PrevWeapon()
+{
+	int32 NewIndex = (EquippedIndex == 0) ? MaxWeapons-1 : EquippedIndex - 1;
+	EquipWeapon(NewIndex);
+	UpdateWeapon();
+	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+}
+
+void ABattleArenaCharacter::UpdateWeapon()
+{
+	//MeleeWeapon->SetSkeletalMesh(InventoryComponent->Weapons[EquippedIndex]->Mesh);
 }
 
 bool ABattleArenaCharacter::MultiDie_Validate()

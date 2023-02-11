@@ -23,6 +23,9 @@ class ABattleArenaCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon, meta = (AllowPrivateAccess = "true"))
+	//class USkeletalMeshComponent* MeleeWeapon;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
 	class UInventoryComponent* InventoryComponent;
 	
@@ -36,6 +39,12 @@ class ABattleArenaCharacter : public ACharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* AttackAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* NextWeaponAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* PreviousWeaponAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction;
@@ -60,7 +69,11 @@ public:
     float PlayerHealth;
     UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
     float MaxHealth;
+    UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
+    int32 EquippedIndex;
 
+	int32 MaxWeapons;
+	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UPlayerUI* PlayerUI;
 
@@ -69,6 +82,9 @@ public:
 
 	UFUNCTION(Client,Reliable)
 	void UpdateInventory();
+
+	UFUNCTION()
+	void UpdateWeapon();
 	
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
@@ -105,6 +121,10 @@ protected:
 	void MultiDie();
 	bool MultiDie_Validate();
 	void MultiDie_Implementation();
+
+	void EquipWeapon(int32 WeaponIndex);
+	void NextWeapon();
+	void PrevWeapon();
 	
 protected:
 	// APawn interface
