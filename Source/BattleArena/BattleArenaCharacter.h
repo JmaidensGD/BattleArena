@@ -73,6 +73,9 @@ public:
     int32 EquippedIndex;
 
 	int32 MaxWeapons;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	AWeapon* EquippedWeapon;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UPlayerUI* PlayerUI;
@@ -85,6 +88,11 @@ public:
 
 	UFUNCTION()
 	void UpdateWeapon();
+	
+	UFUNCTION(NetMulticast,Reliable,WithValidation)
+	void MultiUpdateWeapon();
+	bool MultiUpdateWeapon_Validate();
+	void MultiUpdateWeapon_Implementation();
 	
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
@@ -123,6 +131,7 @@ protected:
 	void MultiDie_Implementation();
 
 	void EquipWeapon(int32 WeaponIndex);
+	
 	void NextWeapon();
 	void PrevWeapon();
 	

@@ -18,18 +18,18 @@ AWeapon::AWeapon()
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupWeapon();
+	SetupWeapon(WeaponData);
 }
 void AWeapon::Attack(){}
 
 void AWeapon::StopAttack(){}
 
-void AWeapon::SetupWeapon()
+void AWeapon::SetupWeapon(UPDA_WeaponBase* Weapon)
 {
-	if(WeaponData)
+	if(Weapon)
 	{
-		DamageAmount = WeaponData->Damage;
-		WeaponMesh->SetSkeletalMesh(WeaponData->Mesh);
+		DamageAmount = Weapon->Damage;
+		WeaponMesh->SetSkeletalMesh(Weapon->Mesh);
 	}
 }
 

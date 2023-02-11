@@ -16,6 +16,7 @@
 #include "Interactable.h"
 #include "InventoryComponent.h"
 #include "MeleeWeapon.h"
+#include "Algo/Rotate.h"
 #include "Engine/DamageEvents.h"
 #include "GameFramework/PlayerState.h"
 #include "HAL/Platform.h"
@@ -283,13 +284,13 @@ void ABattleArenaCharacter::MultiDie_Implementation()
 void ABattleArenaCharacter::EquipWeapon(int32 WeaponIndex)
 {
 	EquippedIndex = WeaponIndex;
+	UpdateWeapon();
 }
 
 void ABattleArenaCharacter::NextWeapon()
 {
 	int32 NewIndex = (EquippedIndex == MaxWeapons-1) ? 0 : EquippedIndex + 1;
 	EquipWeapon(NewIndex);
-	UpdateWeapon();
 	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
 }
 
@@ -297,13 +298,37 @@ void ABattleArenaCharacter::PrevWeapon()
 {
 	int32 NewIndex = (EquippedIndex == 0) ? MaxWeapons-1 : EquippedIndex - 1;
 	EquipWeapon(NewIndex);
-	UpdateWeapon();
 	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
 }
 
 void ABattleArenaCharacter::UpdateWeapon()
 {
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		MultiUpdateWeapon();
+	}
 	//MeleeWeapon->SetSkeletalMesh(InventoryComponent->Weapons[EquippedIndex]->Mesh);
+}
+
+void ABattleArenaCharacter::MultiUpdateWeapon_Implementation()
+{
+	if(EquippedWeapon!=nullptr)
+	{
+		EquippedWeapon->SetupWeapon(InventoryComponent->Weapons[EquippedIndex]);
+	}
+	else
+	{
+		FVector Loc = this->GetActorLocation();
+		FRotator Rot(0,0,0);
+		FActorSpawnParameters SpawnInfo;
+		EquippedWeapon = GetWorld()->SpawnActor<AMeleeWeapon>(Loc,Rot,SpawnInfo);
+		EquippedWeapon->SetupWeapon(InventoryComponent->Weapons[EquippedIndex]);
+	}
+}
+
+bool ABattleArenaCharacter::MultiUpdateWeapon_Validate()
+{
+	return true;
 }
 
 bool ABattleArenaCharacter::MultiDie_Validate()

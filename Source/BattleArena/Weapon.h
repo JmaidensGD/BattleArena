@@ -39,7 +39,7 @@ public:
 
 	virtual void StopAttack();
 
-	virtual void SetupWeapon();
+	virtual void SetupWeapon(UPDA_WeaponBase* WeaponData);
 
 	virtual void Interact_Implementation(ABattleArenaCharacter* Player) override;
 
