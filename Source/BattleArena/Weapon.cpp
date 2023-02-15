@@ -4,16 +4,25 @@
 #include "Weapon.h"
 
 #include "BattleArenaCharacter.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 AWeapon::AWeapon()
 {
 
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
+	RootComponent = WeaponMesh;
 	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	bReplicates = true;
 }
 
+void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AWeapon,WeaponMesh);
+	DOREPLIFETIME(AWeapon,WeaponData);
+
+}
 // Called when the game starts or when spawned
 void AWeapon::BeginPlay()
 {
@@ -24,14 +33,16 @@ void AWeapon::Attack(){}
 
 void AWeapon::StopAttack(){}
 
-void AWeapon::SetupWeapon(UPDA_WeaponBase* Weapon)
+/*void AWeapon::SetupWeapon(UPDA_WeaponBase* Data)
 {
-	if(Weapon)
+	UE_LOG(LogTemp, Warning, TEXT("Setup Weapon"));
+	if(Data)
 	{
-		DamageAmount = Weapon->Damage;
-		WeaponMesh->SetSkeletalMesh(Weapon->Mesh);
+		DamageAmount = Data->Damage;
+		WeaponData = Data;
+		WeaponMesh->SetSkeletalMesh(Data->Mesh);
 	}
-}
+}*/
 
 void AWeapon::Interact_Implementation(ABattleArenaCharacter* Player)
 {

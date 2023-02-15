@@ -74,7 +74,12 @@ public:
 
 	int32 MaxWeapons;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	bool Spawned = false;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TSubclassOf<AWeapon> WeaponClass;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
 	AWeapon* EquippedWeapon;
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
@@ -86,13 +91,8 @@ public:
 	UFUNCTION(Client,Reliable)
 	void UpdateInventory();
 
-	UFUNCTION()
+	UFUNCTION(Server,Reliable)
 	void UpdateWeapon();
-	
-	UFUNCTION(NetMulticast,Reliable,WithValidation)
-	void MultiUpdateWeapon();
-	bool MultiUpdateWeapon_Validate();
-	void MultiUpdateWeapon_Implementation();
 	
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
@@ -119,6 +119,11 @@ protected:
 	void ServerAttack();
 	bool ServerAttack_Validate();
 	void ServerAttack_Implementation();
+	
+	UFUNCTION(Server,Reliable,WithValidation)
+	void ServerSpawnWeapon();
+	bool ServerSpawnWeapon_Validate();
+	void ServerSpawnWeapon_Implementation();
 
 	UFUNCTION(NetMulticast,Reliable)
 	void MultiDebug(FVector StartLocation,FVector EndLocation,FHitResult HitResult);
@@ -132,7 +137,9 @@ protected:
 
 	void EquipWeapon(int32 WeaponIndex);
 	
+	UFUNCTION(Server,Reliable)
 	void NextWeapon();
+	UFUNCTION(Server,Reliable)
 	void PrevWeapon();
 	
 protected:

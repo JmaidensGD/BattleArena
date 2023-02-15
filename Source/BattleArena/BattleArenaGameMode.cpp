@@ -6,6 +6,7 @@
 #include "BattleArenaPlayerController.h"
 #include "BattleArenaGameState.h"
 #include "BattleArenaPlayerState.h"
+#include "MeleeWeapon.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
@@ -57,6 +58,13 @@ void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
 	PC->MaxHealth = 100.0f;
 	PC->PlayerHealth = PC->MaxHealth;
+	/*FVector Loc = PC->GetActorLocation();
+	Loc.Z += 50;
+	FRotator Rot(0,0,0);
+	FActorSpawnParameters SpawnInfo;
+	AMeleeWeapon* Weapon = GetWorld()->SpawnActor<AMeleeWeapon>(Loc,Rot,SpawnInfo);
+	Weapon->SetupWeapon(Weapondata);
+	PC->EquippedWeapon = Weapon;*/
 }
 
 void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)

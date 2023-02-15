@@ -23,10 +23,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
-
-//////////////////////////////////////////////////////////////////////////
-// ABattleArenaCharacter
-
 ABattleArenaCharacter::ABattleArenaCharacter()
 {
 	MaxWeapons = 4;
@@ -73,6 +69,11 @@ void ABattleArenaCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+	
+	if (IsLocallyControlled())
+	{
+		ServerSpawnWeapon();
+	}
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -82,7 +83,6 @@ void ABattleArenaCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
 }
 
 void ABattleArenaCharacter::Tick(float DeltaSeconds)
@@ -96,10 +96,8 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaCharacter,MaxHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,PlayerHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedIndex);
+	DOREPLIFETIME(ABattleArenaCharacter,EquippedWeapon);
 }
-
-//////////////////////////////////////////////////////////////////////////
-// Input
 
 void ABattleArenaCharacter::Interact()
 {
@@ -126,9 +124,6 @@ void ABattleArenaCharacter::Interact()
 		}
 	}
 }
-
-
-
 
 void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
@@ -256,6 +251,23 @@ void ABattleArenaCharacter::ServerAttack_Implementation()
 	}
 }
 
+void ABattleArenaCharacter::ServerSpawnWeapon_Implementation()
+{
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.bNoFail = true;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	FVector Loc = GetActorLocation();
+	Loc.Z += 50;
+	FRotator Rot(0,0,0);
+	EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, Loc, Rot, SpawnParameters);
+	EquippedWeapon->SetOwner(this);
+}
+
+bool ABattleArenaCharacter::ServerSpawnWeapon_Validate()
+{
+	return true;
+}
+
 void ABattleArenaCharacter::MultiDebug_Implementation(FVector StartLocation,FVector EndLocation,FHitResult HitResult)
 {
 	DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
@@ -287,48 +299,23 @@ void ABattleArenaCharacter::EquipWeapon(int32 WeaponIndex)
 	UpdateWeapon();
 }
 
-void ABattleArenaCharacter::NextWeapon()
+void ABattleArenaCharacter::NextWeapon_Implementation()
 {
 	int32 NewIndex = (EquippedIndex == MaxWeapons-1) ? 0 : EquippedIndex + 1;
 	EquipWeapon(NewIndex);
 	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
 }
 
-void ABattleArenaCharacter::PrevWeapon()
+void ABattleArenaCharacter::PrevWeapon_Implementation()
 {
 	int32 NewIndex = (EquippedIndex == 0) ? MaxWeapons-1 : EquippedIndex - 1;
 	EquipWeapon(NewIndex);
 	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
 }
 
-void ABattleArenaCharacter::UpdateWeapon()
+void ABattleArenaCharacter::UpdateWeapon_Implementation()
 {
-	if(GetLocalRole() == ROLE_Authority)
-	{
-		MultiUpdateWeapon();
-	}
-	//MeleeWeapon->SetSkeletalMesh(InventoryComponent->Weapons[EquippedIndex]->Mesh);
-}
-
-void ABattleArenaCharacter::MultiUpdateWeapon_Implementation()
-{
-	if(EquippedWeapon!=nullptr)
-	{
-		EquippedWeapon->SetupWeapon(InventoryComponent->Weapons[EquippedIndex]);
-	}
-	else
-	{
-		FVector Loc = this->GetActorLocation();
-		FRotator Rot(0,0,0);
-		FActorSpawnParameters SpawnInfo;
-		EquippedWeapon = GetWorld()->SpawnActor<AMeleeWeapon>(Loc,Rot,SpawnInfo);
-		EquippedWeapon->SetupWeapon(InventoryComponent->Weapons[EquippedIndex]);
-	}
-}
-
-bool ABattleArenaCharacter::MultiUpdateWeapon_Validate()
-{
-	return true;
+	EquippedWeapon->SetupWeapon(InventoryComponent->Weapons[EquippedIndex]);
 }
 
 bool ABattleArenaCharacter::MultiDie_Validate()
