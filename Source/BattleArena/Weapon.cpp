@@ -12,7 +12,7 @@ AWeapon::AWeapon()
 
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
 	RootComponent = WeaponMesh;
-	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	bReplicates = true;
 }
 

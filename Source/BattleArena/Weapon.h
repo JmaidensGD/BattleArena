@@ -41,6 +41,7 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void SetupWeapon(UPDA_WeaponBase* Data);
+
 	
 	virtual void Interact_Implementation(ABattleArenaCharacter* Player) override;
 

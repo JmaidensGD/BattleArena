@@ -257,10 +257,10 @@ void ABattleArenaCharacter::ServerSpawnWeapon_Implementation()
 	SpawnParameters.bNoFail = true;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector Loc = GetActorLocation();
-	Loc.Z += 50;
+	Loc.Z += 100;
 	FRotator Rot(0,0,0);
-	EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, Loc, Rot, SpawnParameters);
 	EquippedWeapon->SetOwner(this);
+	EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, Loc, Rot, SpawnParameters);
 }
 
 bool ABattleArenaCharacter::ServerSpawnWeapon_Validate()
