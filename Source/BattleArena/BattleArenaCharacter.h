@@ -72,6 +72,7 @@ public:
     UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
     int32 EquippedIndex;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int32 MaxWeapons;
 
 	bool Spawned = false;

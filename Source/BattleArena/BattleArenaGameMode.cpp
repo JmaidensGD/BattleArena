@@ -23,7 +23,8 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
-	CountdownLength = 60.0f;
+	CountdownLength = 5.0f;
+	bUseSeamlessTravel= false;
 }
 
 
@@ -85,13 +86,13 @@ void ABattleArenaGameMode::SetLootTimer()
 	ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>();
 	if(GS)
 	{
-		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, 30.0f,false,30.0f);
+		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, 5.0f,false,5.0f);
 	}
 }
 
 void ABattleArenaGameMode::EndLooting()
 {
-	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level2", ETravelType::TRAVEL_Absolute);
+	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level2", true);
 }
 
 void ABattleArenaGameMode::Tick(float DeltaSeconds)
@@ -102,3 +103,4 @@ void ABattleArenaGameMode::Tick(float DeltaSeconds)
 		GS->UpdateTimer(CountdownLength);
 	}
 }
+

@@ -32,6 +32,9 @@ public:
 	UPROPERTY()
 	float DamageAmount;
 
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	bool Interactable;
+
 	UPROPERTY(BlueprintReadWrite,EditAnywhere,Replicated)
 	UPDA_WeaponBase* WeaponData;
 

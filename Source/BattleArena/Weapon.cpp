@@ -9,11 +9,11 @@
 // Sets default values
 AWeapon::AWeapon()
 {
-
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
 	RootComponent = WeaponMesh;
 	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	bReplicates = true;
+	Interactable = true;
 }
 
 void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -27,7 +27,10 @@ void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupWeapon(WeaponData);
+	if(WeaponData!=nullptr)
+	{
+		SetupWeapon(WeaponData);
+	}
 }
 void AWeapon::Attack(){}
 
@@ -47,9 +50,12 @@ void AWeapon::StopAttack(){}
 void AWeapon::Interact_Implementation(ABattleArenaCharacter* Player)
 {
 	IInteractable::Interact_Implementation(Player);
-	UE_LOG(LogTemp, Warning, TEXT("Interacted"));
-	Player->PickupWeapon(this->WeaponData,this);
-	this->Destroy();
+	if(Interactable)
+	{
+        UE_LOG(LogTemp, Warning, TEXT("Interacted"));
+        Player->PickupWeapon(this->WeaponData,this);
+        this->Destroy();
+	}
 }
 
 bool AWeapon::CanInteract_Implementation()

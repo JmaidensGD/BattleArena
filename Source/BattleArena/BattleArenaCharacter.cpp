@@ -25,7 +25,7 @@
 
 ABattleArenaCharacter::ABattleArenaCharacter()
 {
-	MaxWeapons = 4;
+	MaxWeapons = 2;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		
@@ -180,6 +180,10 @@ void ABattleArenaCharacter::PickupWeapon_Implementation(UPDA_WeaponBase* Weapon,
     InventoryComponent->Weapons.Add(Weapon);
 	UpdateInventory();
 	WeaponActor->Destroy();
+	if(EquippedWeapon==nullptr)
+	{
+		ServerSpawnWeapon();
+	}
 	UE_LOG(LogTemp, Warning, TEXT("Damage : %s"), *FString::SanitizeFloat(InventoryComponent->Weapons[0]->Damage));
 }
 
@@ -190,31 +194,34 @@ void ABattleArenaCharacter::UpdateInventory_Implementation()
 
 void ABattleArenaCharacter::Attack()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
-	APlayerController* MyController = Cast<APlayerController>(Controller);
-	if (MyController)
+	if(EquippedWeapon!=nullptr)
 	{
-		auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
-		auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
-		FHitResult HitResult;
-		FCollisionQueryParams QueryParams;
-		QueryParams.AddIgnoredActor(this);
-		QueryParams.bTraceComplex = true;
-
-		GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
-		//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
-		
-		if (HitResult.GetActor() != nullptr)
-		{
-			if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
-			{
-				ServerAttack();
-			}
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("NULL"));
-		}
+		UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
+        	APlayerController* MyController = Cast<APlayerController>(Controller);
+        	if (MyController)
+        	{
+        		auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
+        		auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
+        		FHitResult HitResult;
+        		FCollisionQueryParams QueryParams;
+        		QueryParams.AddIgnoredActor(this);
+        		QueryParams.bTraceComplex = true;
+        
+        		GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+        		//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+        		
+        		if (HitResult.GetActor() != nullptr)
+        		{
+        			if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
+        			{
+        				ServerAttack();
+        			}
+        		}
+        		else
+        		{
+        			UE_LOG(LogTemp, Warning, TEXT("NULL"));
+        		}
+        	}
 	}
 }
 
@@ -240,7 +247,7 @@ void ABattleArenaCharacter::ServerAttack_Implementation()
 			{
 				if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
 				{
-					Cast<ABattleArenaCharacter>(HitResult.GetActor())->TakeDamage(25,FDamageEvent(),GetController(),this);
+					Cast<ABattleArenaCharacter>(HitResult.GetActor())->TakeDamage(EquippedWeapon->WeaponData->Damage,FDamageEvent(),GetController(),this);
 				}
 			}
 			else
@@ -253,14 +260,20 @@ void ABattleArenaCharacter::ServerAttack_Implementation()
 
 void ABattleArenaCharacter::ServerSpawnWeapon_Implementation()
 {
-	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.bNoFail = true;
-	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	FVector Loc = GetActorLocation();
-	Loc.Z += 100;
-	FRotator Rot(0,0,0);
-	EquippedWeapon->SetOwner(this);
-	EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, Loc, Rot, SpawnParameters);
+	if(InventoryComponent->Weapons.Num()>0)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.bNoFail = true;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector Loc = GetActorLocation();
+		Loc.Z += 100;
+		FRotator Rot(0,0,0);
+		EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, Loc, Rot, SpawnParameters);
+		EquippedWeapon->SetOwner(this);
+		EquippedWeapon->Interactable = false;
+		EquippedWeapon->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform);
+		UpdateWeapon();
+	}
 }
 
 bool ABattleArenaCharacter::ServerSpawnWeapon_Validate()
@@ -301,16 +314,22 @@ void ABattleArenaCharacter::EquipWeapon(int32 WeaponIndex)
 
 void ABattleArenaCharacter::NextWeapon_Implementation()
 {
-	int32 NewIndex = (EquippedIndex == MaxWeapons-1) ? 0 : EquippedIndex + 1;
-	EquipWeapon(NewIndex);
-	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+	if(InventoryComponent->Weapons.Num()>1)
+	{
+		int32 NewIndex = (EquippedIndex == MaxWeapons-1) ? 0 : EquippedIndex + 1;
+		EquipWeapon(NewIndex);
+		UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+	}
 }
 
 void ABattleArenaCharacter::PrevWeapon_Implementation()
 {
-	int32 NewIndex = (EquippedIndex == 0) ? MaxWeapons-1 : EquippedIndex - 1;
-	EquipWeapon(NewIndex);
-	UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+	if(InventoryComponent->Weapons.Num()>1)
+	{
+		int32 NewIndex = (EquippedIndex == 0) ? MaxWeapons-1 : EquippedIndex - 1;
+		EquipWeapon(NewIndex);
+		UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+	}
 }
 
 void ABattleArenaCharacter::UpdateWeapon_Implementation()
