@@ -265,13 +265,13 @@ void ABattleArenaCharacter::ServerSpawnWeapon_Implementation()
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.bNoFail = true;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		FVector Loc = GetActorLocation();
-		Loc.Z += 100;
-		FRotator Rot(0,0,0);
+		FVector Loc = GetMesh()->GetSocketLocation("WeaponSocket");
+		FRotator Rot = GetMesh()->GetSocketRotation("WeaponSocket");
 		EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, Loc, Rot, SpawnParameters);
 		EquippedWeapon->SetOwner(this);
 		EquippedWeapon->Interactable = false;
-		EquippedWeapon->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform);
+		//EquippedWeapon->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform,"WeaponSocket");
+		EquippedWeapon->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,"WeaponSocket");
 		UpdateWeapon();
 	}
 }
