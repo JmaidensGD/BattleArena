@@ -18,6 +18,7 @@
 #include "MeleeWeapon.h"
 #include "Algo/Rotate.h"
 #include "Engine/DamageEvents.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/PlayerState.h"
 #include "HAL/Platform.h"
 #include "Kismet/GameplayStatics.h"
@@ -196,32 +197,61 @@ void ABattleArenaCharacter::Attack()
 {
 	if(EquippedWeapon!=nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
-        	APlayerController* MyController = Cast<APlayerController>(Controller);
-        	if (MyController)
+		//hardcoded attack forward, no weapon detection
+		/*UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
+        APlayerController* MyController = Cast<APlayerController>(Controller);
+        if (MyController)
+        {
+        	auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
+        	auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
+        	FHitResult HitResult;
+        	FCollisionQueryParams QueryParams;
+        	QueryParams.AddIgnoredActor(this);
+        	QueryParams.bTraceComplex = true;
+    
+        	GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+        	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+        	
+        	if (HitResult.GetActor() != nullptr)
         	{
-        		auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
-        		auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
-        		FHitResult HitResult;
-        		FCollisionQueryParams QueryParams;
-        		QueryParams.AddIgnoredActor(this);
-        		QueryParams.bTraceComplex = true;
-        
-        		GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
-        		//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
-        		
-        		if (HitResult.GetActor() != nullptr)
+        		if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
         		{
-        			if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
-        			{
-        				ServerAttack();
-        			}
-        		}
-        		else
-        		{
-        			UE_LOG(LogTemp, Warning, TEXT("NULL"));
+        			ServerAttack();
         		}
         	}
+        	else
+        	{
+        		UE_LOG(LogTemp, Warning, TEXT("NULL"));
+        	}
+        }*/
+
+
+		APlayerController* MyController = Cast<APlayerController>(Controller);
+		if (MyController)
+		{
+			auto StartLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketA");
+			auto  EndLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketB");
+			FHitResult HitResult;
+			FCollisionQueryParams QueryParams;
+			QueryParams.AddIgnoredActor(this);
+			QueryParams.bTraceComplex = true;
+        
+			GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+			DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+        		
+			if (HitResult.GetActor() != nullptr)
+			{
+				if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
+				{
+					ServerAttack();
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("NULL"));
+			}
+		}
+		
 	}
 }
 
@@ -233,8 +263,8 @@ void ABattleArenaCharacter::ServerAttack_Implementation()
 		APlayerController* MyController = Cast<APlayerController>(Controller);
 		if (MyController)
 		{
-			auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
-			auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
+			auto StartLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketA");
+			auto  EndLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketB");
 			FHitResult HitResult;
 			FCollisionQueryParams QueryParams;
 			QueryParams.AddIgnoredActor(this);
@@ -255,6 +285,8 @@ void ABattleArenaCharacter::ServerAttack_Implementation()
 				UE_LOG(LogTemp, Warning, TEXT("NULL"));
 			}
 		}
+
+		
 	}
 }
 

@@ -5,17 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30e334ee-4f07-43e1-8e93-5d65afc17f4a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Models/Weapons/matte.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Models/Weapons/model.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Models/Weapons/model_PhysicsAsset.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Models/Weapons/model_Skeleton.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/DA_Dagger.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/DA_Dagger.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SKM_Quinn_Simple.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SKM_Quinn_Simple.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Animations/ABP_Manny.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Animations/ABP_Manny.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Animations/Manny/BS_MM_WalkRun.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Animations/Manny/BS_MM_WalkRun.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/EquipableWeapon.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/EquipableWeapon.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Weapons/model.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/Weapons/model.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Weapons/model_Skeleton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/Weapons/model_Skeleton.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" afterDir="false" />
     </list>
@@ -150,7 +147,7 @@
       <workItem from="1676498301960" duration="4797000" />
       <workItem from="1676550206485" duration="4716000" />
       <workItem from="1677107034661" duration="6246000" />
-      <workItem from="1677703529777" duration="2165000" />
+      <workItem from="1677703529777" duration="3620000" />
     </task>
     <servers />
   </component>
