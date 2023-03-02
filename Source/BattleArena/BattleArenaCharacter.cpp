@@ -58,10 +58,14 @@ ABattleArenaCharacter::ABattleArenaCharacter()
 	//MeleeWeapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeleeWeapon"));
 	//MeleeWeapon->SetupAttachment(GetMesh());
 	// Create a follow camera
+
+	
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-	
+
+	DeathCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("DeathCamera"));
+	DeathCamera->SetupAttachment(RootComponent);
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -83,6 +87,7 @@ void ABattleArenaCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+		PlayerController->SetViewTarget(FollowCamera->GetOwner());
 	}
 }
 
@@ -327,6 +332,7 @@ void ABattleArenaCharacter::Die()
 {
 	if(GetLocalRole() == ROLE_Authority)
 	{
+		Spectate();
 		MultiDie();
 	}
 }
