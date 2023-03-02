@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BattleArenaCharacter.h"
+#include "PDA_WeaponBase.h"
 #include "GameFramework/GameModeBase.h"
 #include "BattleArenaGameMode.generated.h"
 
@@ -26,6 +28,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void SetLootTimer();
 
+	UPROPERTY()
+	ABattleArenaCharacter* PlayerChar;
+
 	void EndLooting();
 
 	bool MinigameComplete;
@@ -35,6 +40,9 @@ protected:
 	UPROPERTY()
 	int32 NextID;
 	float CountdownLength;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPDA_WeaponBase* Weapondata;
 
 	virtual void Tick(float DeltaSeconds) override;
 

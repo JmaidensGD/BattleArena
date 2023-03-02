@@ -4,41 +4,58 @@
 #include "Weapon.h"
 
 #include "BattleArenaCharacter.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 AWeapon::AWeapon()
 {
-
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
-	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	RootComponent = WeaponMesh;
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	bReplicates = true;
+	Interactable = true;
 }
 
+void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AWeapon,WeaponMesh);
+	DOREPLIFETIME(AWeapon,WeaponData);
+
+}
 // Called when the game starts or when spawned
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupWeapon();
+	if(WeaponData!=nullptr)
+	{
+		SetupWeapon(WeaponData);
+	}
 }
 void AWeapon::Attack(){}
 
 void AWeapon::StopAttack(){}
 
-void AWeapon::SetupWeapon()
+/*void AWeapon::SetupWeapon(UPDA_WeaponBase* Data)
 {
-	if(WeaponData)
+	UE_LOG(LogTemp, Warning, TEXT("Setup Weapon"));
+	if(Data)
 	{
-		DamageAmount = WeaponData->Damage;
-		WeaponMesh->SetSkeletalMesh(WeaponData->Mesh);
+		DamageAmount = Data->Damage;
+		WeaponData = Data;
+		WeaponMesh->SetSkeletalMesh(Data->Mesh);
 	}
-}
+}*/
 
 void AWeapon::Interact_Implementation(ABattleArenaCharacter* Player)
 {
 	IInteractable::Interact_Implementation(Player);
-	UE_LOG(LogTemp, Warning, TEXT("Interacted"));
-	Player->PickupWeapon(this->WeaponData,this);
-	this->Destroy();
+	if(Interactable)
+	{
+        UE_LOG(LogTemp, Warning, TEXT("Interacted"));
+        Player->PickupWeapon(this->WeaponData,this);
+        this->Destroy();
+	}
 }
 
 bool AWeapon::CanInteract_Implementation()
