@@ -15,16 +15,18 @@
 #include "EnhancedInputSubsystems.h"
 #include "Interactable.h"
 #include "InventoryComponent.h"
+#include "MeleeWeapon.h"
+#include "Algo/Rotate.h"
+#include "Engine/DamageEvents.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/PlayerState.h"
 #include "HAL/Platform.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
-
-
-//////////////////////////////////////////////////////////////////////////
-// ABattleArenaCharacter
 
 ABattleArenaCharacter::ABattleArenaCharacter()
 {
+	MaxWeapons = 2;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		
@@ -52,12 +54,18 @@ ABattleArenaCharacter::ABattleArenaCharacter()
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
-
+	
+	//MeleeWeapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeleeWeapon"));
+	//MeleeWeapon->SetupAttachment(GetMesh());
 	// Create a follow camera
+
+	
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-	
+
+	DeathCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("DeathCamera"));
+	DeathCamera->SetupAttachment(RootComponent);
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -66,6 +74,11 @@ void ABattleArenaCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+	
+	if (IsLocallyControlled())
+	{
+		ServerSpawnWeapon();
+	}
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -74,8 +87,8 @@ void ABattleArenaCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+		PlayerController->SetViewTarget(FollowCamera->GetOwner());
 	}
-
 }
 
 void ABattleArenaCharacter::Tick(float DeltaSeconds)
@@ -88,10 +101,9 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ABattleArenaCharacter,MaxHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,PlayerHealth);
+	DOREPLIFETIME(ABattleArenaCharacter,EquippedIndex);
+	DOREPLIFETIME(ABattleArenaCharacter,EquippedWeapon);
 }
-
-//////////////////////////////////////////////////////////////////////////
-// Input
 
 void ABattleArenaCharacter::Interact()
 {
@@ -130,6 +142,11 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::Interact);
 
+		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::Attack);
+
+		EnhancedInputComponent->BindAction(NextWeaponAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::NextWeapon);
+		EnhancedInputComponent->BindAction(PreviousWeaponAction, ETriggerEvent::Completed, this, &ABattleArenaCharacter::PrevWeapon);
+
 		EnhancedInputComponent->BindAction(SpectateAction, ETriggerEvent::Triggered, this, &ABattleArenaCharacter::Spectate);
 		//Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ABattleArenaCharacter::Move);
@@ -144,8 +161,17 @@ void ABattleArenaCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
 	AController* EventInstigator, AActor* DamageCauser)
 {
+	const float actualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
 	PlayerHealth -= DamageAmount;
-	UE_LOG(LogTemp, Warning, TEXT("taken damage"));
+	if(PlayerHealth<=0.0f)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DEAD"));
+		//DEATH
+		Die();
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("taken %s damage"), *FString::FromInt(DamageAmount));
 	return DamageAmount;
 }
 
@@ -160,13 +186,198 @@ void ABattleArenaCharacter::PickupWeapon_Implementation(UPDA_WeaponBase* Weapon,
     InventoryComponent->Weapons.Add(Weapon);
 	UpdateInventory();
 	WeaponActor->Destroy();
+	if(EquippedWeapon==nullptr)
+	{
+		ServerSpawnWeapon();
+	}
 	UE_LOG(LogTemp, Warning, TEXT("Damage : %s"), *FString::SanitizeFloat(InventoryComponent->Weapons[0]->Damage));
-	//InventoryComponent->Weapons.Add(Weapon);
 }
 
 void ABattleArenaCharacter::UpdateInventory_Implementation()
 {
 	PlayerUI->UpdateInventory();
+}
+
+void ABattleArenaCharacter::Attack()
+{
+	if(EquippedWeapon!=nullptr)
+	{
+		//hardcoded attack forward, no weapon detection
+		/*UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
+        APlayerController* MyController = Cast<APlayerController>(Controller);
+        if (MyController)
+        {
+        	auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
+        	auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
+        	FHitResult HitResult;
+        	FCollisionQueryParams QueryParams;
+        	QueryParams.AddIgnoredActor(this);
+        	QueryParams.bTraceComplex = true;
+    
+        	GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+        	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+        	
+        	if (HitResult.GetActor() != nullptr)
+        	{
+        		if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
+        		{
+        			ServerAttack();
+        		}
+        	}
+        	else
+        	{
+        		UE_LOG(LogTemp, Warning, TEXT("NULL"));
+        	}
+        }*/
+
+
+		APlayerController* MyController = Cast<APlayerController>(Controller);
+		if (MyController)
+		{
+			auto StartLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketA");
+			auto  EndLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketB");
+			FHitResult HitResult;
+			FCollisionQueryParams QueryParams;
+			QueryParams.AddIgnoredActor(this);
+			QueryParams.bTraceComplex = true;
+        
+			GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+			DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+        		
+			if (HitResult.GetActor() != nullptr)
+			{
+				if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
+				{
+					ServerAttack();
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("NULL"));
+			}
+		}
+		
+	}
+}
+
+void ABattleArenaCharacter::ServerAttack_Implementation()
+{
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Server Stuff"));
+		APlayerController* MyController = Cast<APlayerController>(Controller);
+		if (MyController)
+		{
+			auto StartLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketA");
+			auto  EndLocation = EquippedWeapon->WeaponMesh->GetSocketLocation("WeaponSocketB");
+			FHitResult HitResult;
+			FCollisionQueryParams QueryParams;
+			QueryParams.AddIgnoredActor(this);
+			QueryParams.bTraceComplex = true;
+
+			GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+			//MultiDebug(StartLocation,EndLocation,HitResult);
+			
+			if (HitResult.GetActor() != nullptr)
+			{
+				if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
+				{
+					Cast<ABattleArenaCharacter>(HitResult.GetActor())->TakeDamage(EquippedWeapon->WeaponData->Damage,FDamageEvent(),GetController(),this);
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("NULL"));
+			}
+		}
+
+		
+	}
+}
+
+void ABattleArenaCharacter::ServerSpawnWeapon_Implementation()
+{
+	if(InventoryComponent->Weapons.Num()>0)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.bNoFail = true;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector Loc = GetMesh()->GetSocketLocation("WeaponSocket");
+		FRotator Rot = GetMesh()->GetSocketRotation("WeaponSocket");
+		EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, Loc, Rot, SpawnParameters);
+		EquippedWeapon->SetOwner(this);
+		EquippedWeapon->Interactable = false;
+		//EquippedWeapon->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform,"WeaponSocket");
+		EquippedWeapon->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,"WeaponSocket");
+		UpdateWeapon();
+	}
+}
+
+bool ABattleArenaCharacter::ServerSpawnWeapon_Validate()
+{
+	return true;
+}
+
+void ABattleArenaCharacter::MultiDebug_Implementation(FVector StartLocation,FVector EndLocation,FHitResult HitResult)
+{
+	DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+}
+
+bool ABattleArenaCharacter::ServerAttack_Validate()
+{
+	return true;
+}
+
+void ABattleArenaCharacter::Die()
+{
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		Spectate();
+		MultiDie();
+	}
+}
+
+void ABattleArenaCharacter::MultiDie_Implementation()
+{
+	this->GetCharacterMovement()->DisableMovement();
+	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+}
+
+void ABattleArenaCharacter::EquipWeapon(int32 WeaponIndex)
+{
+	EquippedIndex = WeaponIndex;
+	UpdateWeapon();
+}
+
+void ABattleArenaCharacter::NextWeapon_Implementation()
+{
+	if(InventoryComponent->Weapons.Num()>1)
+	{
+		int32 NewIndex = (EquippedIndex == MaxWeapons-1) ? 0 : EquippedIndex + 1;
+		EquipWeapon(NewIndex);
+		UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+	}
+}
+
+void ABattleArenaCharacter::PrevWeapon_Implementation()
+{
+	if(InventoryComponent->Weapons.Num()>1)
+	{
+		int32 NewIndex = (EquippedIndex == 0) ? MaxWeapons-1 : EquippedIndex - 1;
+		EquipWeapon(NewIndex);
+		UE_LOG(LogTemp, Warning, TEXT("%s"),*FString::FromInt(EquippedIndex));
+	}
+}
+
+void ABattleArenaCharacter::UpdateWeapon_Implementation()
+{
+	EquippedWeapon->SetupWeapon(InventoryComponent->Weapons[EquippedIndex]);
+}
+
+bool ABattleArenaCharacter::MultiDie_Validate()
+{
+	return true;
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)

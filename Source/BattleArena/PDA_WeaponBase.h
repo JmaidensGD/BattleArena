@@ -27,5 +27,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float AttackSpeed;
 	
 };

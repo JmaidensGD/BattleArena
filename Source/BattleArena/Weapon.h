@@ -24,23 +24,28 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+
+public:
+	UPROPERTY(BlueprintReadWrite,EditAnywhere,Replicated)
 	USkeletalMeshComponent* WeaponMesh;
 
 	UPROPERTY()
 	float DamageAmount;
 
-	UPROPERTY(EditAnywhere)
-	UPDA_WeaponBase* WeaponData;
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	bool Interactable;
 
-public:	
+	UPROPERTY(BlueprintReadWrite,EditAnywhere,Replicated)
+	UPDA_WeaponBase* WeaponData;
 
 	virtual void Attack();
 
 	virtual void StopAttack();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void SetupWeapon(UPDA_WeaponBase* Data);
 
-	virtual void SetupWeapon();
-
+	
 	virtual void Interact_Implementation(ABattleArenaCharacter* Player) override;
 
 	virtual bool CanInteract_Implementation() override;
