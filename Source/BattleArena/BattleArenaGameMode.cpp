@@ -53,6 +53,7 @@ void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 	if (ABattleArenaPlayerController* PlayerController = Cast<ABattleArenaPlayerController>(NewPlayer))
 	{
 		PlayerController->PlayerID = NextID;
+		PlayersAlive.Add(NextID);
 		UE_LOG(LogTemp, Warning, TEXT("PostLogin: %i"), PlayerController->PlayerID);
 	}	
 	NextID++;
@@ -93,6 +94,16 @@ void ABattleArenaGameMode::SetLootTimer()
 void ABattleArenaGameMode::EndLooting()
 {
 	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level2", true);
+	//PlayersAlive = GetNumPlayers();
+}
+
+void ABattleArenaGameMode::PlayerDeath(int32 ID)
+{
+	PlayersAlive.Remove(ID);
+	if(PlayersAlive.Num()==1)
+	{
+		Cast<ABattleArenaGameState>(GameState)->AddScore(PlayersAlive[0]);
+	}
 }
 
 void ABattleArenaGameMode::Tick(float DeltaSeconds)

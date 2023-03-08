@@ -16,6 +16,9 @@ class ABattleArenaGameMode : public AGameModeBase
 public:
 	ABattleArenaGameMode();
 
+	UFUNCTION()
+	void PlayerDeath(int32 ID);
+	
 protected:
 
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
@@ -40,6 +43,9 @@ protected:
 	UPROPERTY()
 	int32 NextID;
 	float CountdownLength;
+	
+	UPROPERTY(VisibleAnywhere)
+	TArray<int32> PlayersAlive;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UPDA_WeaponBase* Weapondata;

@@ -133,6 +133,9 @@ protected:
 	void MultiDebug(FVector StartLocation,FVector EndLocation,FHitResult HitResult);
 
 	void Die();
+	
+	UFUNCTION(Server,Reliable)
+	void ServerNotifyDeath();
 
 	UFUNCTION(NetMulticast,Reliable,WithValidation)
 	void MultiDie();

@@ -1,7 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BattleArenaCharacter.h"
 
+#include "BattleArenaGameMode.h"
 #include "BattleArenaGameState.h"
 #include "BattleArenaPlayerController.h"
 #include "BattleArenaPlayerState.h"
@@ -332,9 +334,27 @@ void ABattleArenaCharacter::Die()
 {
 	if(GetLocalRole() == ROLE_Authority)
 	{
-		Spectate();
+		ServerNotifyDeath();
 		MultiDie();
+		Spectate();
 	}
+}
+
+void ABattleArenaCharacter::ServerNotifyDeath_Implementation()
+{
+	ABattleArenaPlayerController* PC = Cast<ABattleArenaPlayerController>(GetController());
+	UWorld* World = GetWorld();
+	ABattleArenaGameMode* GM = Cast<ABattleArenaGameMode>(UGameplayStatics::GetGameMode(World));
+	if(PC)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Controller Valid"));
+		UE_LOG(LogTemp, Warning, TEXT(" %d"), PC->PlayerID);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Controller Invalid"));
+	}
+	GM->PlayerDeath(PC->PlayerID);
 }
 
 void ABattleArenaCharacter::MultiDie_Implementation()
