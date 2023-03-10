@@ -4,6 +4,9 @@
 #include "BattleArenaGameState.h"
 
 #include "BattleArenaCharacter.h"
+#include "BattleArenaGameInstance.h"
+#include "BattleArenaPlayerController.h"
+#include "InventoryComponent.h"
 #include "GameFramework/PlayerState.h"
 #include "Net/UnrealNetwork.h"
 
@@ -33,6 +36,23 @@ ABattleArenaGameState::ABattleArenaGameState()
 {
 	bReplicates = true;
 	Results.Init(0,5);
+}
+
+void ABattleArenaGameState::GetInventories_Implementation()
+{
+	UBattleArenaGameInstance* GI = Cast<UBattleArenaGameInstance>(GetGameInstance());
+	for (APlayerState* PlayerState : PlayerArray)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Get INV"));
+		ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>();
+		ABattleArenaPlayerController* PCON = Cast<ABattleArenaPlayerController>(PC->GetController());
+		if(PC)
+		{
+			FPlayerWeapons Weapons;
+			Weapons.Weapons = PC->InventoryComponent->Weapons;
+			GI->PlayerInventories.Add(PCON->PlayerID,Weapons);
+		}
+	}
 }
 
 void ABattleArenaGameState::UpdateTimer_Implementation(float Length)

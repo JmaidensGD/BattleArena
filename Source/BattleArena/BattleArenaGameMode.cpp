@@ -24,7 +24,7 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
 	CountdownLength = 5.0f;
-	bUseSeamlessTravel= false;
+	bUseSeamlessTravel = true;
 }
 
 
@@ -93,6 +93,7 @@ void ABattleArenaGameMode::SetLootTimer()
 
 void ABattleArenaGameMode::EndLooting()
 {
+	GetGameState<ABattleArenaGameState>()->GetInventories();
 	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level2", true);
 	//PlayersAlive = GetNumPlayers();
 }

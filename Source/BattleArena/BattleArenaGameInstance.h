@@ -3,9 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PDA_WeaponBase.h"
 #include "Engine/GameInstance.h"
 #include "Interfaces/OnlineSessionInterface.h"
 #include "BattleArenaGameInstance.generated.h"
+
+USTRUCT()
+struct FPlayerWeapons
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	TArray<UPDA_WeaponBase*> Weapons;
+};
 
 USTRUCT(BlueprintType)
 struct FServerInfo
@@ -44,7 +54,9 @@ class BATTLEARENA_API UBattleArenaGameInstance : public UGameInstance
 public:
 	UBattleArenaGameInstance();
 	IOnlineSessionPtr SessionInterface;
-
+	
+	UPROPERTY()
+	TMap<int32,FPlayerWeapons> PlayerInventories;
 
 protected:
 	FName MySessionName;

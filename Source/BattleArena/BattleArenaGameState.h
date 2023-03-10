@@ -28,6 +28,9 @@ public:
 	UFUNCTION(Server,Reliable,BlueprintCallable)
 	void AddScore(int32 WinnerID);
 
+	UFUNCTION(Server,Reliable,BlueprintCallable)
+	void GetInventories();
+
 	UFUNCTION(Client,Reliable,BlueprintCallable)
 	void UpdateTimer(float Length);
 
