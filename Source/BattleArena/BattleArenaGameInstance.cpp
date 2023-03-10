@@ -11,6 +11,11 @@ UBattleArenaGameInstance::UBattleArenaGameInstance()
 	MySessionName = FName("Base Session Name");
 }
 
+TArray<UPDA_WeaponBase*> UBattleArenaGameInstance::GetWeapon(int32 PlayerID)
+{
+	return PlayerInventories[PlayerID].Weapons;
+}
+
 void UBattleArenaGameInstance::Init()
 {
 	Super::Init();

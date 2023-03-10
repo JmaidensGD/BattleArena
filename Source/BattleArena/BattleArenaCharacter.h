@@ -103,6 +103,9 @@ public:
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
 
+	UFUNCTION(Server,Reliable,BlueprintCallable)
+	void LoadWeapons();
+
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void RoundEnd(int Winner);
 	

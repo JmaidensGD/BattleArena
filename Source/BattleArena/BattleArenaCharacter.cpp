@@ -3,6 +3,7 @@
 
 #include "BattleArenaCharacter.h"
 
+#include "BattleArenaGameInstance.h"
 #include "BattleArenaGameMode.h"
 #include "BattleArenaGameState.h"
 #include "BattleArenaPlayerController.h"
@@ -81,6 +82,8 @@ void ABattleArenaCharacter::BeginPlay()
 	{
 		ServerSpawnWeapon();
 	}
+
+	
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -398,6 +401,16 @@ void ABattleArenaCharacter::UpdateWeapon_Implementation()
 bool ABattleArenaCharacter::MultiDie_Validate()
 {
 	return true;
+}
+
+void ABattleArenaCharacter::LoadWeapons_Implementation()
+{
+	ABattleArenaPlayerController* PCON = Cast<ABattleArenaPlayerController>(GetController());
+	TArray<UPDA_WeaponBase*> SavedWeapons = GetGameInstance<UBattleArenaGameInstance>()->GetWeapon(PCON->PlayerID);
+	for (UPDA_WeaponBase* SavedWeapon : SavedWeapons)
+	{
+		InventoryComponent->Weapons.Add(SavedWeapon);
+	}
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)

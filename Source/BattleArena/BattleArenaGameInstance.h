@@ -58,6 +58,10 @@ public:
 	UPROPERTY()
 	TMap<int32,FPlayerWeapons> PlayerInventories;
 
+	UFUNCTION(BlueprintCallable)
+	TArray<UPDA_WeaponBase*> GetWeapon(int32 PlayerID);
+	
+
 protected:
 	FName MySessionName;
 
