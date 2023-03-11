@@ -21,6 +21,9 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable)
+	void StartGame();
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Replicated)
 	TArray<APlayerController*> AllPlayerControllers;
 };

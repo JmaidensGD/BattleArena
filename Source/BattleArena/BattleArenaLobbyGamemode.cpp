@@ -45,3 +45,8 @@ void ABattleArenaLobbyGamemode::BeginPlay()
 
 
 }
+
+void ABattleArenaLobbyGamemode::StartGame()
+{
+	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level1");
+}
