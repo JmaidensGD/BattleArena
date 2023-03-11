@@ -45,12 +45,11 @@ void ABattleArenaGameState::GetInventories_Implementation()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Get INV"));
 		ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>();
-		ABattleArenaPlayerController* PCON = Cast<ABattleArenaPlayerController>(PC->GetController());
 		if(PC)
 		{
 			FPlayerWeapons Weapons;
 			Weapons.Weapons = PC->InventoryComponent->Weapons;
-			GI->PlayerInventories.Add(PCON->PlayerID,Weapons);
+			GI->PlayerInventories.Add(PlayerState->GetPlayerId(),Weapons);
 		}
 	}
 }

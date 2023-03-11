@@ -6,19 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="30e334ee-4f07-43e1-8e93-5d65afc17f4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Damager.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Damager.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Particles/P_Ambient_Dust.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Particles/P_Ambient_Dust.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameMode.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaPlayerController.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level2.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Maps/Level2.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/Player/PlayerHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Player/PlayerHUD.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

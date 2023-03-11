@@ -406,7 +406,8 @@ bool ABattleArenaCharacter::MultiDie_Validate()
 void ABattleArenaCharacter::LoadWeapons_Implementation()
 {
 	ABattleArenaPlayerController* PCON = Cast<ABattleArenaPlayerController>(GetController());
-	TArray<UPDA_WeaponBase*> SavedWeapons = GetGameInstance<UBattleArenaGameInstance>()->GetWeapon(PCON->PlayerID);
+	UE_LOG(LogTemp, Warning, TEXT("Player ID : %s"),*FString::FromInt(GetPlayerState()->GetPlayerId()));
+	TArray<UPDA_WeaponBase*> SavedWeapons = GetGameInstance<UBattleArenaGameInstance>()->GetWeapon(GetPlayerState()->GetPlayerId());
 	for (UPDA_WeaponBase* SavedWeapon : SavedWeapons)
 	{
 		InventoryComponent->Weapons.Add(SavedWeapon);
