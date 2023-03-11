@@ -76,7 +76,7 @@ void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
 		MinigameComplete = true;
 		if(Player)
 		{
-			Player->TeleportTo(FVector(0,0,0),FRotator(0,0,0));
+			Player->TeleportTo(FVector(700,950,250),FRotator(0,0,0),false,true);
 			SetLootTimer();
 		}
 	}
@@ -94,7 +94,7 @@ void ABattleArenaGameMode::SetLootTimer()
 void ABattleArenaGameMode::EndLooting()
 {
 	GetGameState<ABattleArenaGameState>()->GetInventories();
-	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level2", true);
+	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
 	//PlayersAlive = GetNumPlayers();
 }
 

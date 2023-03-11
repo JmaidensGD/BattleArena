@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BattleArenaGameInstance.h"
 #include "GameFramework/GameStateBase.h"
 #include "BattleArenaGameState.generated.h"
 
@@ -18,6 +19,9 @@ class BATTLEARENA_API ABattleArenaGameState : public AGameStateBase
 public:
 
 	ABattleArenaGameState();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	FServerInfo CurrentServerInfo;
 
 	UPROPERTY(VisibleAnywhere,Replicated, BlueprintReadWrite)
 	TArray<int> Results;

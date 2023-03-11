@@ -5,6 +5,7 @@
 #include  "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 
 UBattleArenaGameInstance::UBattleArenaGameInstance()
 {
@@ -37,7 +38,7 @@ void UBattleArenaGameInstance::OnCreateSessionComplete(FName SessionName, bool S
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Success)
 	if(Success)
 	{
-		GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level1?listen");
+		GetWorld()->ServerTravel("/Game/HG_Levels/Lobby?listen");
 	}
 }
 
@@ -118,6 +119,8 @@ void UBattleArenaGameInstance::CreateServer(FString ServerName, FString HostName
 	SessionSettings.Set(FName("ServerHostNameKey"), HostName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
+	
+	CurrentServerInfo.ServerName = ServerName;
 }
 
 void UBattleArenaGameInstance::FindServers()

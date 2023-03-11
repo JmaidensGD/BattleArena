@@ -60,6 +60,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	TArray<UPDA_WeaponBase*> GetWeapon(int32 PlayerID);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FServerInfo CurrentServerInfo;
 	
 
 protected:
