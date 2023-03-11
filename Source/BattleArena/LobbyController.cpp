@@ -3,3 +3,7 @@
 
 #include "LobbyController.h"
 
+ALobbyController::ALobbyController()
+{
+	PlayerName = "PLAYERNAME";
+}

@@ -74,11 +74,11 @@ void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
 	if(!MinigameComplete)
 	{
 		MinigameComplete = true;
-		if(Player)
-		{
-			Player->TeleportTo(FVector(700,950,250),FRotator(0,0,0),false,true);
-			SetLootTimer();
-		}
+		SetLootTimer();
+	}
+	if(Player)
+	{
+		Player->TeleportTo(FVector(700,950,250),FRotator(0,0,0),false,true);
 	}
 }
 

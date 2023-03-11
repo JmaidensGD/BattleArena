@@ -66,5 +66,6 @@ void ABattleArenaGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaGameState, rounds);
 	DOREPLIFETIME(ABattleArenaGameState, LootTimer);
 	DOREPLIFETIME(ABattleArenaGameState, LootTimerValue);
+	DOREPLIFETIME(ABattleArenaGameState, LobbyPlayers);
 	DOREPLIFETIME(ABattleArenaGameState, CurrentServerInfo);
 }

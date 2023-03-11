@@ -39,7 +39,7 @@ public:
 	}
 };
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJoinServerDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDelegate, FServerInfo, ServerListDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerSearchingDelegate, bool, SearchingForServer);
 
@@ -70,6 +70,8 @@ protected:
 
 	UPROPERTY(BlueprintAssignable)
 	FServerDelegate ServerListDelegate;
+	UPROPERTY(BlueprintAssignable)
+	FJoinServerDelegate JoinDelegate;
 	UPROPERTY(BlueprintAssignable)
 	FServerSearchingDelegate SearchingForServer;
 

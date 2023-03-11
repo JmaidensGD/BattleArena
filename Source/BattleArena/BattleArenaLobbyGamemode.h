@@ -26,4 +26,6 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Replicated)
 	TArray<APlayerController*> AllPlayerControllers;
+
+public:
 };

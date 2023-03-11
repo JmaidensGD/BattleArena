@@ -13,5 +13,9 @@ UCLASS()
 class BATTLEARENA_API ALobbyController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+	ALobbyController();
+
+public:
+	FString PlayerName;
 };
