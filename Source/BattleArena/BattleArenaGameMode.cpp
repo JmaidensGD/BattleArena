@@ -23,7 +23,7 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
-	CountdownLength = 15.0f;
+	CountdownLength = 5.0f;
 	bUseSeamlessTravel = true;
 }
 
@@ -50,14 +50,13 @@ AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Play
 void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
+	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
 	APlayerState* NewPlayerState = NewPlayer->GetPlayerState<APlayerState>();
 	if (NewPlayerState!= nullptr)
 	{
 		GI->PlayersAlive.Add(NewPlayerState->GetPlayerId());
 	}
-	
-	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
 	PC->MaxHealth = 100.0f;
 	PC->PlayerHealth = PC->MaxHealth;
 	/*FVector Loc = PC->GetActorLocation();
@@ -103,12 +102,21 @@ void ABattleArenaGameMode::PlayerDeath(int32 ID)
 	UE_LOG(LogTemp, Warning, TEXT("player death : %d"), ID);
 
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+
+	UE_LOG(LogTemp, Warning, TEXT("players alive : %d"), GI->PlayersAlive.Num());
 	
 	GI->PlayersAlive.Remove(ID);
+
+	UE_LOG(LogTemp, Warning, TEXT("players alive : %d"), GI->PlayersAlive.Num());
 	
 	if(GI->PlayersAlive.Num()==1)
 	{
-		GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
+		GI->PlayersAlive.Empty();
+		for (APlayerState* PlayerState : GetGameState<ABattleArenaGameState>()->PlayerArray)
+		{
+			GI->PlayersAlive.Add(PlayerState->GetPlayerId());
+		}
+		EndRound(GI->PlayersAlive[0]);
 	}
 }
 
@@ -118,6 +126,7 @@ void ABattleArenaGameMode::EndRound(int32 Winner)
 	UE_LOG(LogTemp, Warning, TEXT("End Round"));
 	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
 	GS->AddScore(GI->PlayersAlive[0]);
+	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
 }
 
 void ABattleArenaGameMode::Tick(float DeltaSeconds)

@@ -12,6 +12,11 @@ UBattleArenaGameInstance::UBattleArenaGameInstance()
 	MySessionName = FName("Base Session Name");
 }
 
+void UBattleArenaGameInstance::UpdateAlivePlayers(int32 PlayerID)
+{
+	PlayersAlive.Add(PlayerID);
+}
+
 TArray<UPDA_WeaponBase*> UBattleArenaGameInstance::GetWeapon(int32 PlayerID)
 {
 	return PlayerInventories[PlayerID].Weapons;

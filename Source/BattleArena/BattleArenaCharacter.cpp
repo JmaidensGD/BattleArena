@@ -83,8 +83,6 @@ void ABattleArenaCharacter::BeginPlay()
 		ServerSpawnWeapon();
 	}
 
-	
-
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -94,6 +92,7 @@ void ABattleArenaCharacter::BeginPlay()
 		}
 		PlayerController->SetViewTarget(FollowCamera->GetOwner());
 	}
+
 }
 
 void ABattleArenaCharacter::Tick(float DeltaSeconds)

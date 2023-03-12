@@ -54,6 +54,9 @@ class BATTLEARENA_API UBattleArenaGameInstance : public UGameInstance
 public:
 	UBattleArenaGameInstance();
 	IOnlineSessionPtr SessionInterface;
+
+	UFUNCTION()
+	void UpdateAlivePlayers(int32 PlayerID);
 	
 	UPROPERTY()
 	TMap<int32,FPlayerWeapons> PlayerInventories;
@@ -69,6 +72,7 @@ public:
 	
 
 protected:
+	
 	FName MySessionName;
 
 	UPROPERTY(BlueprintAssignable)

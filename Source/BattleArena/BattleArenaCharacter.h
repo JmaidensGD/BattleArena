@@ -99,7 +99,6 @@ public:
 
 	UFUNCTION(Server,Reliable)
 	void UpdateWeapon();
-	
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
 
