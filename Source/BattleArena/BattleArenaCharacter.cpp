@@ -91,8 +91,8 @@ void ABattleArenaCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 		PlayerController->SetViewTarget(FollowCamera->GetOwner());
+		Cast<ABattleArenaPlayerController>(PlayerController)->ClientHUDStateChanged(EHUDState::Playing);
 	}
-
 }
 
 void ABattleArenaCharacter::Tick(float DeltaSeconds)
@@ -187,14 +187,16 @@ void ABattleArenaCharacter::UpdateUI_Implementation()
 void ABattleArenaCharacter::PickupWeapon_Implementation(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("PICKUP SERVER"));
-    InventoryComponent->Weapons.Add(Weapon);
-	UpdateInventory();
-	WeaponActor->Destroy();
-	if(EquippedWeapon==nullptr)
+	if (InventoryComponent->Weapons.Num()<MaxWeapons)
 	{
-		ServerSpawnWeapon();
+		InventoryComponent->Weapons.Add(Weapon);
+		UpdateInventory();
+		WeaponActor->Destroy();
+		if(EquippedWeapon==nullptr)
+		{
+			ServerSpawnWeapon();
+		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Damage : %s"), *FString::SanitizeFloat(InventoryComponent->Weapons[0]->Damage));
 }
 
 void ABattleArenaCharacter::UpdateInventory_Implementation()
