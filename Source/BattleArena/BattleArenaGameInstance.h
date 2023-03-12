@@ -58,6 +58,9 @@ public:
 	UPROPERTY()
 	TMap<int32,FPlayerWeapons> PlayerInventories;
 
+	UPROPERTY(VisibleAnywhere)
+	TArray<int32> PlayersAlive;
+
 	UFUNCTION(BlueprintCallable)
 	TArray<UPDA_WeaponBase*> GetWeapon(int32 PlayerID);
 

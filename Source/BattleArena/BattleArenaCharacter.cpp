@@ -351,13 +351,13 @@ void ABattleArenaCharacter::ServerNotifyDeath_Implementation()
 	if(PC)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Controller Valid"));
-		UE_LOG(LogTemp, Warning, TEXT(" %d"), PC->PlayerID);
+		UE_LOG(LogTemp, Warning, TEXT(" %d"), GetPlayerState()->GetPlayerId());
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Controller Invalid"));
 	}
-	GM->PlayerDeath(PC->PlayerID);
+	GM->PlayerDeath(GetPlayerState()->GetPlayerId());
 }
 
 void ABattleArenaCharacter::MultiDie_Implementation()

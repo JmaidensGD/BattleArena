@@ -69,10 +69,3 @@ void ABattleArenaPlayerController::ClientHUDStateChanged_Implementation(EHUDStat
 		HUD->OnStateChanged(NewState);
 	}
 }
-
-void ABattleArenaPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(ABattleArenaPlayerController, PlayerID);
-
-}

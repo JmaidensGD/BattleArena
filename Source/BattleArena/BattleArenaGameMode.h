@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BattleArenaCharacter.h"
+#include "BattleArenaGameInstance.h"
 #include "PDA_WeaponBase.h"
 #include "GameFramework/GameModeBase.h"
 #include "BattleArenaGameMode.generated.h"
@@ -18,6 +19,9 @@ public:
 
 	UFUNCTION()
 	void PlayerDeath(int32 ID);
+
+	UFUNCTION()
+	void EndRound(int32 Winner);
 	
 protected:
 
@@ -33,15 +37,13 @@ protected:
 
 	UPROPERTY()
 	ABattleArenaCharacter* PlayerChar;
-
+	
 	void EndLooting();
 
 	bool MinigameComplete;
 	
 	FTimerHandle LootTimer;
 
-	UPROPERTY()
-	int32 NextID;
 	float CountdownLength;
 	
 	UPROPERTY(VisibleAnywhere)
