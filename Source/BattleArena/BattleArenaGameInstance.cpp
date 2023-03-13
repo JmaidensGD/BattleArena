@@ -112,7 +112,7 @@ void UBattleArenaGameInstance::CreateServer(FString ServerName, FString HostName
 	FOnlineSessionSettings SessionSettings;
 	SessionSettings.bAllowJoinInProgress = true;
 	SessionSettings.bIsDedicated = false;
-	if (IOnlineSubsystem::Get()->GetSubsystemName() != "Null")
+	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
 		SessionSettings.bIsLANMatch = false;
 	else
 		SessionSettings.bIsLANMatch = true;
@@ -133,9 +133,10 @@ void UBattleArenaGameInstance::FindServers()
 	SearchingForServer.Broadcast(true);
 	
 	UE_LOG(LogTemp, Warning, TEXT("Finding Server"))
+	UE_LOG(LogTemp, Warning, TEXT("Subsystem : %s"), *IOnlineSubsystem::Get()->GetSubsystemName().ToString())
 	
 	SessionSearch=MakeShareable(new FOnlineSessionSearch());
-	if (IOnlineSubsystem::Get()->GetSubsystemName() != "Null")
+	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
 		SessionSearch->bIsLanQuery = false;
 	else
 		SessionSearch->bIsLanQuery = true;
