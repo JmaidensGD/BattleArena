@@ -1,7 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BattleArenaCharacter.h"
 
+#include "BattleArenaGameInstance.h"
+#include "BattleArenaGameMode.h"
 #include "BattleArenaGameState.h"
 #include "BattleArenaPlayerController.h"
 #include "BattleArenaPlayerState.h"
@@ -88,6 +91,7 @@ void ABattleArenaCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 		PlayerController->SetViewTarget(FollowCamera->GetOwner());
+		Cast<ABattleArenaPlayerController>(PlayerController)->ClientHUDStateChanged(EHUDState::Playing);
 	}
 }
 
@@ -183,14 +187,16 @@ void ABattleArenaCharacter::UpdateUI_Implementation()
 void ABattleArenaCharacter::PickupWeapon_Implementation(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("PICKUP SERVER"));
-    InventoryComponent->Weapons.Add(Weapon);
-	UpdateInventory();
-	WeaponActor->Destroy();
-	if(EquippedWeapon==nullptr)
+	if (InventoryComponent->Weapons.Num()<MaxWeapons)
 	{
-		ServerSpawnWeapon();
+		InventoryComponent->Weapons.Add(Weapon);
+		UpdateInventory();
+		WeaponActor->Destroy();
+		if(EquippedWeapon==nullptr)
+		{
+			ServerSpawnWeapon();
+		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Damage : %s"), *FString::SanitizeFloat(InventoryComponent->Weapons[0]->Damage));
 }
 
 void ABattleArenaCharacter::UpdateInventory_Implementation()
@@ -332,9 +338,27 @@ void ABattleArenaCharacter::Die()
 {
 	if(GetLocalRole() == ROLE_Authority)
 	{
-		Spectate();
+		ServerNotifyDeath();
 		MultiDie();
+		Spectate();
 	}
+}
+
+void ABattleArenaCharacter::ServerNotifyDeath_Implementation()
+{
+	ABattleArenaPlayerController* PC = Cast<ABattleArenaPlayerController>(GetController());
+	UWorld* World = GetWorld();
+	ABattleArenaGameMode* GM = Cast<ABattleArenaGameMode>(UGameplayStatics::GetGameMode(World));
+	if(PC)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Controller Valid"));
+		UE_LOG(LogTemp, Warning, TEXT(" %d"), GetPlayerState()->GetPlayerId());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Controller Invalid"));
+	}
+	GM->PlayerDeath(GetPlayerState()->GetPlayerId());
 }
 
 void ABattleArenaCharacter::MultiDie_Implementation()
@@ -378,6 +402,17 @@ void ABattleArenaCharacter::UpdateWeapon_Implementation()
 bool ABattleArenaCharacter::MultiDie_Validate()
 {
 	return true;
+}
+
+void ABattleArenaCharacter::LoadWeapons_Implementation()
+{
+	ABattleArenaPlayerController* PCON = Cast<ABattleArenaPlayerController>(GetController());
+	UE_LOG(LogTemp, Warning, TEXT("Player ID : %s"),*FString::FromInt(GetPlayerState()->GetPlayerId()));
+	TArray<UPDA_WeaponBase*> SavedWeapons = GetGameInstance<UBattleArenaGameInstance>()->GetWeapon(GetPlayerState()->GetPlayerId());
+	for (UPDA_WeaponBase* SavedWeapon : SavedWeapons)
+	{
+		InventoryComponent->Weapons.Add(SavedWeapon);
+	}
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)

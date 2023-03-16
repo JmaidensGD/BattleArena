@@ -3,9 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PDA_WeaponBase.h"
 #include "Engine/GameInstance.h"
 #include "Interfaces/OnlineSessionInterface.h"
 #include "BattleArenaGameInstance.generated.h"
+
+USTRUCT()
+struct FPlayerWeapons
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	TArray<UPDA_WeaponBase*> Weapons;
+};
 
 USTRUCT(BlueprintType)
 struct FServerInfo
@@ -29,7 +39,7 @@ public:
 	}
 };
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJoinServerDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDelegate, FServerInfo, ServerListDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerSearchingDelegate, bool, SearchingForServer);
 
@@ -45,12 +55,30 @@ public:
 	UBattleArenaGameInstance();
 	IOnlineSessionPtr SessionInterface;
 
+	UFUNCTION()
+	void UpdateAlivePlayers(int32 PlayerID);
+	
+	UPROPERTY()
+	TMap<int32,FPlayerWeapons> PlayerInventories;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<int32> PlayersAlive;
+
+	UFUNCTION(BlueprintCallable)
+	TArray<UPDA_WeaponBase*> GetWeapon(int32 PlayerID);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FServerInfo CurrentServerInfo;
+	
 
 protected:
+	
 	FName MySessionName;
 
 	UPROPERTY(BlueprintAssignable)
 	FServerDelegate ServerListDelegate;
+	UPROPERTY(BlueprintAssignable)
+	FJoinServerDelegate JoinDelegate;
 	UPROPERTY(BlueprintAssignable)
 	FServerSearchingDelegate SearchingForServer;
 

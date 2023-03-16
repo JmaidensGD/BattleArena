@@ -4,6 +4,9 @@
 #include "BattleArenaGameState.h"
 
 #include "BattleArenaCharacter.h"
+#include "BattleArenaGameInstance.h"
+#include "BattleArenaPlayerController.h"
+#include "InventoryComponent.h"
 #include "GameFramework/PlayerState.h"
 #include "Net/UnrealNetwork.h"
 
@@ -35,6 +38,22 @@ ABattleArenaGameState::ABattleArenaGameState()
 	Results.Init(0,5);
 }
 
+void ABattleArenaGameState::GetInventories_Implementation()
+{
+	UBattleArenaGameInstance* GI = Cast<UBattleArenaGameInstance>(GetGameInstance());
+	for (APlayerState* PlayerState : PlayerArray)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Get INV"));
+		ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>();
+		if(PC)
+		{
+			FPlayerWeapons Weapons;
+			Weapons.Weapons = PC->InventoryComponent->Weapons;
+			GI->PlayerInventories.Add(PlayerState->GetPlayerId(),Weapons);
+		}
+	}
+}
+
 void ABattleArenaGameState::UpdateTimer_Implementation(float Length)
 {
 	LootTimerValue = Length - GetWorldTimerManager().GetTimerElapsed(LootTimer);
@@ -47,6 +66,6 @@ void ABattleArenaGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaGameState, rounds);
 	DOREPLIFETIME(ABattleArenaGameState, LootTimer);
 	DOREPLIFETIME(ABattleArenaGameState, LootTimerValue);
-
-
+	DOREPLIFETIME(ABattleArenaGameState, LobbyPlayers);
+	DOREPLIFETIME(ABattleArenaGameState, CurrentServerInfo);
 }

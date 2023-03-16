@@ -29,8 +29,7 @@ class ABattleArenaCharacter : public ACharacter
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon, meta = (AllowPrivateAccess = "true"))
 	//class USkeletalMeshComponent* MeleeWeapon;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
-	class UInventoryComponent* InventoryComponent;
+	
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -67,6 +66,9 @@ class ABattleArenaCharacter : public ACharacter
 
 public:
 	ABattleArenaCharacter();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* InventoryComponent;
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
     float PlayerHealth;
@@ -97,9 +99,11 @@ public:
 
 	UFUNCTION(Server,Reliable)
 	void UpdateWeapon();
-	
 	UFUNCTION(Server,Reliable)
 	void PickupWeapon(UPDA_WeaponBase* Weapon, AWeapon* WeaponActor);
+
+	UFUNCTION(Server,Reliable,BlueprintCallable)
+	void LoadWeapons();
 
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void RoundEnd(int Winner);
@@ -133,6 +137,9 @@ protected:
 	void MultiDebug(FVector StartLocation,FVector EndLocation,FHitResult HitResult);
 
 	void Die();
+	
+	UFUNCTION(Server,Reliable)
+	void ServerNotifyDeath();
 
 	UFUNCTION(NetMulticast,Reliable,WithValidation)
 	void MultiDie();

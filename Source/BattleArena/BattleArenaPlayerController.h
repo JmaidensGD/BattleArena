@@ -28,7 +28,4 @@ public:
 
 	virtual void OnRep_Pawn() override;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
-	int32 PlayerID;
-
 };

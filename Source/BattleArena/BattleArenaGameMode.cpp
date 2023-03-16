@@ -23,8 +23,8 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
-	CountdownLength = 5.0f;
-	bUseSeamlessTravel= false;
+	CountdownLength = 60.0f;
+	bUseSeamlessTravel = true;
 }
 
 
@@ -50,13 +50,13 @@ AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Play
 void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
-	if (ABattleArenaPlayerController* PlayerController = Cast<ABattleArenaPlayerController>(NewPlayer))
-	{
-		PlayerController->PlayerID = NextID;
-		UE_LOG(LogTemp, Warning, TEXT("PostLogin: %i"), PlayerController->PlayerID);
-	}	
-	NextID++;
 	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
+	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+	APlayerState* NewPlayerState = NewPlayer->GetPlayerState<APlayerState>();
+	if (NewPlayerState!= nullptr)
+	{
+		GI->PlayersAlive.Add(NewPlayerState->GetPlayerId());
+	}
 	PC->MaxHealth = 100.0f;
 	PC->PlayerHealth = PC->MaxHealth;
 	/*FVector Loc = PC->GetActorLocation();
@@ -73,11 +73,11 @@ void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
 	if(!MinigameComplete)
 	{
 		MinigameComplete = true;
-		if(Player)
-		{
-			Player->TeleportTo(FVector(0,0,0),FRotator(0,0,0));
-			SetLootTimer();
-		}
+		SetLootTimer();
+	}
+	if(Player)
+	{
+		Player->TeleportTo(FVector(700,950,250),FRotator(0,0,0),false,true);
 	}
 }
 
@@ -86,13 +86,47 @@ void ABattleArenaGameMode::SetLootTimer()
 	ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>();
 	if(GS)
 	{
-		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, 5.0f,false,5.0f);
+		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, CountdownLength,false,CountdownLength);
 	}
 }
 
 void ABattleArenaGameMode::EndLooting()
 {
-	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/Level2", true);
+	GetGameState<ABattleArenaGameState>()->GetInventories();
+	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
+	//PlayersAlive = GetNumPlayers();
+}
+
+void ABattleArenaGameMode::PlayerDeath(int32 ID)
+{
+	UE_LOG(LogTemp, Warning, TEXT("player death : %d"), ID);
+
+	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+
+	UE_LOG(LogTemp, Warning, TEXT("players alive : %d"), GI->PlayersAlive.Num());
+	
+	GI->PlayersAlive.Remove(ID);
+
+	UE_LOG(LogTemp, Warning, TEXT("players alive : %d"), GI->PlayersAlive.Num());
+	
+	if(GI->PlayersAlive.Num()==1)
+	{
+		GI->PlayersAlive.Empty();
+		for (APlayerState* PlayerState : GetGameState<ABattleArenaGameState>()->PlayerArray)
+		{
+			GI->PlayersAlive.Add(PlayerState->GetPlayerId());
+		}
+		EndRound(GI->PlayersAlive[0]);
+	}
+}
+
+void ABattleArenaGameMode::EndRound(int32 Winner)
+{
+	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+	UE_LOG(LogTemp, Warning, TEXT("End Round"));
+	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
+	GS->AddScore(GI->PlayersAlive[0]);
+	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
 }
 
 void ABattleArenaGameMode::Tick(float DeltaSeconds)
