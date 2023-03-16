@@ -132,7 +132,7 @@ void ABattleArenaGameMode::PlayerDeath(int32 ID)
 void ABattleArenaGameMode::EndRound(int32 Winner)
 {
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
-	GI->PlayerInventories.
+	GI->PlayerInventories.Empty();
 	UE_LOG(LogTemp, Warning, TEXT("End Round"));
 	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
 	GS->AddScore(GI->PlayersAlive[0]);
