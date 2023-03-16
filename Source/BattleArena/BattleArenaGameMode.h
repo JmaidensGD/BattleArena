@@ -33,6 +33,9 @@ protected:
 	void CompleteMiniGame(AActor* Player);
 
 	UFUNCTION(BlueprintCallable)
+	void FailMinigame(AActor* Player);
+
+	UFUNCTION(BlueprintCallable)
 	void SetLootTimer();
 
 	UPROPERTY()
