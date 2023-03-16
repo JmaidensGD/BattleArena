@@ -82,6 +82,9 @@ public:
 
 	bool Spawned = false;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
+	FVector SpawnLocation;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<AWeapon> WeaponClass;
 

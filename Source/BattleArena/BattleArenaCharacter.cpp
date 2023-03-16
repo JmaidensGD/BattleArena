@@ -106,6 +106,7 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaCharacter,MaxHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,PlayerHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedIndex);
+	DOREPLIFETIME(ABattleArenaCharacter,SpawnLocation);
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedWeapon);
 }
 

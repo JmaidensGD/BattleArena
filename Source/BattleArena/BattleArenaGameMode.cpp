@@ -51,6 +51,7 @@ void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
+	PC->SpawnLocation = PC->GetActorLocation();
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
 	APlayerState* NewPlayerState = NewPlayer->GetPlayerState<APlayerState>();
 	if (NewPlayerState!= nullptr)
@@ -78,6 +79,14 @@ void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
 	if(Player)
 	{
 		Player->TeleportTo(FVector(700,950,250),FRotator(0,0,0),false,true);
+	}
+}
+
+void ABattleArenaGameMode::FailMinigame(AActor* Player)
+{
+	if(Player)
+	{
+		Player->TeleportTo(Cast<ABattleArenaCharacter>(Player)->SpawnLocation,FRotator(0,0,0),false,true);
 	}
 }
 
@@ -123,10 +132,11 @@ void ABattleArenaGameMode::PlayerDeath(int32 ID)
 void ABattleArenaGameMode::EndRound(int32 Winner)
 {
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+	GI->PlayerInventories.
 	UE_LOG(LogTemp, Warning, TEXT("End Round"));
 	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
 	GS->AddScore(GI->PlayersAlive[0]);
-	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
+	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level1", true);
 }
 
 void ABattleArenaGameMode::Tick(float DeltaSeconds)
