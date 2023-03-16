@@ -23,7 +23,7 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
-	CountdownLength = 5.0f;
+	CountdownLength = 60.0f;
 	bUseSeamlessTravel = true;
 }
 
