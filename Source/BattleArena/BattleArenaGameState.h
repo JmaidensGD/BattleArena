@@ -51,6 +51,9 @@ public:
 
 	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
 	float LootTimerValue;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float LootTimerLength;
 	
 	UPROPERTY(Replicated)
 	FTimerHandle LootTimer;

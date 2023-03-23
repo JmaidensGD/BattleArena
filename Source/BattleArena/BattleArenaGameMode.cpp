@@ -23,7 +23,6 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
-	CountdownLength = 60.0f;
 	bUseSeamlessTravel = true;
 }
 
@@ -95,7 +94,7 @@ void ABattleArenaGameMode::SetLootTimer()
 	ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>();
 	if(GS)
 	{
-		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, CountdownLength,false,CountdownLength);
+		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, GS->LootTimerLength,false,GS->LootTimerLength);
 	}
 }
 
@@ -144,7 +143,6 @@ void ABattleArenaGameMode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	if(ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>())
 	{
-		GS->UpdateTimer(CountdownLength);
+		GS->UpdateTimer(GS->LootTimerLength);
 	}
 }
-
