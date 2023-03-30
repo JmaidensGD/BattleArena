@@ -46,8 +46,6 @@ protected:
 	bool MinigameComplete;
 	
 	FTimerHandle LootTimer;
-
-	float CountdownLength;
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<int32> PlayersAlive;
