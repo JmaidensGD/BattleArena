@@ -9,6 +9,9 @@
 #include "GameFramework/GameModeBase.h"
 #include "BattleArenaGameMode.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(GameServerLog, Log, All);
+
+
 UCLASS(minimalapi)
 class ABattleArenaGameMode : public AGameModeBase
 {
@@ -24,6 +27,7 @@ public:
 	void EndRound(int32 Winner);
 	
 protected:
+
 
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 

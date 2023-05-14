@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.1",
+	"EngineAssociation": "{A0279270-4110-F22B-75FB-92A44896D6E3}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -21,6 +21,10 @@
 			"TargetAllowList": [
 				"Editor"
 			]
+		},
+		{
+			"Name": "GameLiftServerSDK",
+			"Enabled": true
 		}
 	]
 }
