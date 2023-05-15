@@ -119,7 +119,7 @@ void UBattleArenaGameInstance::CreateServer(FString ServerName, FString HostName
 	
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = 5;
+	SessionSettings.NumPublicConnections = 4;
 	SessionSettings.Set(FName("ServerNameKey"), ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	SessionSettings.Set(FName("ServerHostNameKey"), HostName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
@@ -141,7 +141,7 @@ void UBattleArenaGameInstance::FindServers()
 	else
 		SessionSearch->bIsLanQuery = true;
 	
-	SessionSearch->MaxSearchResults = 100;
+	SessionSearch->MaxSearchResults = 10;
 	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 	
 	SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
