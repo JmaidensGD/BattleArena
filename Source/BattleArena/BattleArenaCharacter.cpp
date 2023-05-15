@@ -169,6 +169,7 @@ float ABattleArenaCharacter::TakeDamage(float DamageAmount, FDamageEvent const& 
 	const float actualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
 	PlayerHealth -= DamageAmount;
+	UpdateUI();
 	if(PlayerHealth<=0.0f)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("DEAD"));

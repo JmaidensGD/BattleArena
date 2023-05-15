@@ -6,14 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="30e334ee-4f07-43e1-8e93-5d65afc17f4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/HG_Levels/HG_Level1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/HG_Levels/HG_Level1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameMode.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameState.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameState.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/Player/PlayerHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Player/PlayerHUD.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameMode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameMode.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameMode.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/HG_Levels/Lobby.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/HG_Levels/Lobby.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/HG_Levels/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/HG_Levels/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaHUD.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/HUD/PlayerHUD_wbp.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/HUD/PlayerHUD_wbp.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/Menus/IntroText/IntoText_level.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Menus/IntroText/IntoText_level.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/Menus/Lobby/Lobby_UI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Menus/Lobby/Lobby_UI.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/Menus/MainMenu/MainMenu_UI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Menus/MainMenu/MainMenu_UI.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/Menus/MainMenu/MainMenu_test.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Menus/MainMenu/MainMenu_test.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/Network/LobbyMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Network/LobbyMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/UI/Network/MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Network/MainMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test.bat" beforeDir="false" afterPath="$PROJECT_DIR$/Test.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +65,9 @@
       <configuration_2>
         <option name="CONFIGURATION" value="DebugGame Editor" />
         <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\Win64\UnrealEditor-Win64-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -67,6 +75,9 @@
       <configuration_3>
         <option name="CONFIGURATION" value="DebugGame" />
         <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena-Win64-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -74,6 +85,9 @@
       <configuration_4>
         <option name="CONFIGURATION" value="Development Editor" />
         <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\Win64\UnrealEditor.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -81,6 +95,9 @@
       <configuration_5>
         <option name="CONFIGURATION" value="Development" />
         <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -88,10 +105,323 @@
       <configuration_6>
         <option name="CONFIGURATION" value="Shipping" />
         <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena-Win64-Shipping.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
       </configuration_6>
+      <configuration_7>
+        <option name="CONFIGURATION" value="Debug Client" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaClient-HoloLens-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_7>
+      <configuration_8>
+        <option name="CONFIGURATION" value="Debug Client" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaClient-Win64-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_8>
+      <configuration_9>
+        <option name="CONFIGURATION" value="Debug Editor" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\HoloLens\UnrealEditor-HoloLens-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_9>
+      <configuration_10>
+        <option name="CONFIGURATION" value="Debug Editor" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\Win64\UnrealEditor-Win64-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_10>
+      <configuration_11>
+        <option name="CONFIGURATION" value="Debug Server" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaServer-HoloLens-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_11>
+      <configuration_12>
+        <option name="CONFIGURATION" value="Debug Server" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaServer-Win64-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_12>
+      <configuration_13>
+        <option name="CONFIGURATION" value="DebugGame Client" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaClient-HoloLens-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_13>
+      <configuration_14>
+        <option name="CONFIGURATION" value="DebugGame Client" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaClient-Win64-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_14>
+      <configuration_15>
+        <option name="CONFIGURATION" value="DebugGame Editor" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\HoloLens\UnrealEditor-HoloLens-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_15>
+      <configuration_16>
+        <option name="CONFIGURATION" value="DebugGame Server" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaServer-HoloLens-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_16>
+      <configuration_17>
+        <option name="CONFIGURATION" value="DebugGame Server" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaServer-Win64-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_17>
+      <configuration_18>
+        <option name="CONFIGURATION" value="DebugGame" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArena-HoloLens-DebugGame.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_18>
+      <configuration_19>
+        <option name="CONFIGURATION" value="Debug" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArena-HoloLens-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_19>
+      <configuration_20>
+        <option name="CONFIGURATION" value="Debug" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena-Win64-Debug.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_20>
+      <configuration_21>
+        <option name="CONFIGURATION" value="Development Client" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaClient.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_21>
+      <configuration_22>
+        <option name="CONFIGURATION" value="Development Client" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaClient.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_22>
+      <configuration_23>
+        <option name="CONFIGURATION" value="Development Editor" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UE_5.1\Engine\Binaries\HoloLens\UnrealEditor.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_23>
+      <configuration_24>
+        <option name="CONFIGURATION" value="Development Server" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaServer.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_24>
+      <configuration_25>
+        <option name="CONFIGURATION" value="Development Server" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaServer.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_25>
+      <configuration_26>
+        <option name="CONFIGURATION" value="Development" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArena.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_26>
+      <configuration_27>
+        <option name="CONFIGURATION" value="Shipping Client" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaClient-HoloLens-Shipping.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_27>
+      <configuration_28>
+        <option name="CONFIGURATION" value="Shipping Client" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaClient-Win64-Shipping.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_28>
+      <configuration_29>
+        <option name="CONFIGURATION" value="Shipping Server" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaServer-HoloLens-Shipping.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_29>
+      <configuration_30>
+        <option name="CONFIGURATION" value="Shipping Server" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaServer-Win64-Shipping.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_30>
+      <configuration_31>
+        <option name="CONFIGURATION" value="Shipping" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArena-HoloLens-Shipping.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_31>
+      <configuration_32>
+        <option name="CONFIGURATION" value="Test Client" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaClient-HoloLens-Test.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_32>
+      <configuration_33>
+        <option name="CONFIGURATION" value="Test Client" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaClient-Win64-Test.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_33>
+      <configuration_34>
+        <option name="CONFIGURATION" value="Test Server" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArenaServer-HoloLens-Test.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_34>
+      <configuration_35>
+        <option name="CONFIGURATION" value="Test Server" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArenaServer-Win64-Test.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;D:\UnrealEngine\BattleArena\BattleArena.uproject&quot;" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_35>
+      <configuration_36>
+        <option name="CONFIGURATION" value="Test" />
+        <option name="PLATFORM" value="HoloLens" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\HoloLens\BattleArena-HoloLens-Test.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_36>
+      <configuration_37>
+        <option name="CONFIGURATION" value="Test" />
+        <option name="PLATFORM" value="Win64" />
+        <option name="EXECUTABLE_PATH" value="D:\UnrealEngine\BattleArena\Binaries\Win64\BattleArena-Win64-Test.exe" />
+        <option name="WORKING_DIRECTORY" value="D:\UE_5.1" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
+        <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      </configuration_37>
       <method v="2">
         <option name="Build" />
       </method>
@@ -140,6 +470,8 @@
       <workItem from="1678740064934" duration="347000" />
       <workItem from="1678819728609" duration="2070000" />
       <workItem from="1678965023725" duration="2344000" />
+      <workItem from="1684143380294" duration="617000" />
+      <workItem from="1684151144071" duration="872000" />
     </task>
     <servers />
   </component>
