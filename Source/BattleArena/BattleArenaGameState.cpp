@@ -36,6 +36,7 @@ ABattleArenaGameState::ABattleArenaGameState()
 {
 	bReplicates = true;
 	Results.Init(0,5);
+	LootTimerLength = 45.0f;
 }
 
 void ABattleArenaGameState::GetInventories_Implementation()
@@ -56,7 +57,14 @@ void ABattleArenaGameState::GetInventories_Implementation()
 
 void ABattleArenaGameState::UpdateTimer_Implementation(float Length)
 {
-	LootTimerValue = Length - GetWorldTimerManager().GetTimerElapsed(LootTimer);
+	if (GetWorldTimerManager().GetTimerElapsed(LootTimer) == -1)
+	{
+		LootTimerValue = Length;
+	}
+	else
+	{
+		LootTimerValue = Length - GetWorldTimerManager().GetTimerElapsed(LootTimer);
+	}
 }
 
 void ABattleArenaGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

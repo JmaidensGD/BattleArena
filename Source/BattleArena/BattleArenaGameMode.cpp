@@ -23,7 +23,6 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 	}
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
-	CountdownLength = 60.0f;
 	bUseSeamlessTravel = true;
 }
 
@@ -51,6 +50,7 @@ void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 	ABattleArenaCharacter* PC = Cast<ABattleArenaCharacter>(NewPlayer->GetPawn());
+	PC->SpawnLocation = PC->GetActorLocation();
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
 	APlayerState* NewPlayerState = NewPlayer->GetPlayerState<APlayerState>();
 	if (NewPlayerState!= nullptr)
@@ -81,12 +81,20 @@ void ABattleArenaGameMode::CompleteMiniGame(AActor* Player)
 	}
 }
 
+void ABattleArenaGameMode::FailMinigame(AActor* Player)
+{
+	if(Player)
+	{
+		Player->TeleportTo(Cast<ABattleArenaCharacter>(Player)->SpawnLocation,FRotator(0,0,0),false,true);
+	}
+}
+
 void ABattleArenaGameMode::SetLootTimer()
 {
 	ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>();
 	if(GS)
 	{
-		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, CountdownLength,false,CountdownLength);
+		GetWorldTimerManager().SetTimer(GS->LootTimer, this,&ABattleArenaGameMode::EndLooting, GS->LootTimerLength,false,GS->LootTimerLength);
 	}
 }
 
@@ -123,10 +131,11 @@ void ABattleArenaGameMode::PlayerDeath(int32 ID)
 void ABattleArenaGameMode::EndRound(int32 Winner)
 {
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+	GI->PlayerInventories.Empty();
 	UE_LOG(LogTemp, Warning, TEXT("End Round"));
 	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
 	GS->AddScore(GI->PlayersAlive[0]);
-	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
+	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level1", true);
 }
 
 void ABattleArenaGameMode::Tick(float DeltaSeconds)
@@ -134,7 +143,6 @@ void ABattleArenaGameMode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	if(ABattleArenaGameState* GS = GetGameState<ABattleArenaGameState>())
 	{
-		GS->UpdateTimer(CountdownLength);
+		GS->UpdateTimer(GS->LootTimerLength);
 	}
 }
-

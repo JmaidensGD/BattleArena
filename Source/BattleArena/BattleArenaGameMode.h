@@ -33,6 +33,9 @@ protected:
 	void CompleteMiniGame(AActor* Player);
 
 	UFUNCTION(BlueprintCallable)
+	void FailMinigame(AActor* Player);
+
+	UFUNCTION(BlueprintCallable)
 	void SetLootTimer();
 
 	UPROPERTY()
@@ -43,8 +46,6 @@ protected:
 	bool MinigameComplete;
 	
 	FTimerHandle LootTimer;
-
-	float CountdownLength;
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<int32> PlayersAlive;

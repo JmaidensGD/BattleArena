@@ -106,6 +106,7 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaCharacter,MaxHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,PlayerHealth);
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedIndex);
+	DOREPLIFETIME(ABattleArenaCharacter,SpawnLocation);
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedWeapon);
 }
 
@@ -376,6 +377,7 @@ void ABattleArenaCharacter::EquipWeapon(int32 WeaponIndex)
 
 void ABattleArenaCharacter::NextWeapon_Implementation()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Next"));
 	if(InventoryComponent->Weapons.Num()>1)
 	{
 		int32 NewIndex = (EquippedIndex == MaxWeapons-1) ? 0 : EquippedIndex + 1;
@@ -386,6 +388,7 @@ void ABattleArenaCharacter::NextWeapon_Implementation()
 
 void ABattleArenaCharacter::PrevWeapon_Implementation()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Prev"));
 	if(InventoryComponent->Weapons.Num()>1)
 	{
 		int32 NewIndex = (EquippedIndex == 0) ? MaxWeapons-1 : EquippedIndex - 1;
