@@ -13,6 +13,13 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnScoreChangedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerJoinedSignature, FString, Name);
 
+USTRUCT(BlueprintType)
+struct FScoresStruct
+{
+	GENERATED_BODY()
+	TMap<int,int> Results;
+};
+
 UCLASS()
 class BATTLEARENA_API ABattleArenaGameState : public AGameStateBase
 {
@@ -32,7 +39,7 @@ public:
 	TArray<FString> LobbyPlayers;
 
 	UPROPERTY(VisibleAnywhere,Replicated, BlueprintReadWrite)
-	TArray<int> Results;
+	FScoresStruct Results;
 
 	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
 	int rounds;

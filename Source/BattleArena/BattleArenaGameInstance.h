@@ -60,6 +60,11 @@ public:
 	
 	UPROPERTY()
 	TMap<int32,FPlayerWeapons> PlayerInventories;
+	UPROPERTY()
+	TMap<int,int> Results;
+
+	UPROPERTY(BlueprintReadOnly)
+	int RoundNumber;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<int32> PlayersAlive;

@@ -71,7 +71,7 @@ void UBattleArenaGameInstance::OnFindSessionComplete(bool Success)
 			
 			ServerInfo.ServerName = ServerName;
 			ServerInfo.MaxPlayers = SearchResult.Session.SessionSettings.NumPublicConnections;
-			ServerInfo.CurrentPlayers = ServerInfo.MaxPlayers - SearchResult.Session.NumOpenPublicConnections;
+			ServerInfo.CurrentPlayers = SearchResult.Session.SessionSettings.NumPublicConnections - SearchResult.Session.NumOpenPublicConnections;
 			ServerInfo.ServerIndex = ArrayIndex;
 			ServerInfo.SetPlayerCount();
 			
