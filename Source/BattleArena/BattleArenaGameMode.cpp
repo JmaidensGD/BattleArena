@@ -106,7 +106,7 @@ void ABattleArenaGameMode::EndLooting()
 	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
 	//PlayersAlive = GetNumPlayers();
 }
-
+ 
 void ABattleArenaGameMode::PlayerDeath(int32 ID)
 {
 	UE_LOG(LogTemp, Warning, TEXT("player death : %d"), ID);

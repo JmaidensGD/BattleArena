@@ -98,7 +98,7 @@ void ABattleArenaCharacter::BeginPlay()
 void ABattleArenaCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if(Attacking)
+	if(Attacking && !Cooldown)
 	{
 		Attack();
 	}
@@ -113,6 +113,10 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaCharacter,SpawnLocation);
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedWeapon);
 	DOREPLIFETIME(ABattleArenaCharacter,Attacking);
+	DOREPLIFETIME(ABattleArenaCharacter,Cooldown);
+	DOREPLIFETIME(ABattleArenaCharacter,CanDoDamage);
+
+
 
 }
 
@@ -263,6 +267,7 @@ void ABattleArenaCharacter::Attack()
 				if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
 				{
 					ServerAttack();
+					Cooldown = true;
 				}
 			}
 			else
