@@ -101,6 +101,8 @@ void ABattleArenaGameMode::SetLootTimer()
 void ABattleArenaGameMode::EndLooting()
 {
 	GetGameState<ABattleArenaGameState>()->GetInventories();
+	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
+	UE_LOG(LogTemp, Warning, TEXT("Round : %d"), GS->rounds);
 	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level2", true);
 	//PlayersAlive = GetNumPlayers();
 }
@@ -116,25 +118,32 @@ void ABattleArenaGameMode::PlayerDeath(int32 ID)
 	GI->PlayersAlive.Remove(ID);
 
 	UE_LOG(LogTemp, Warning, TEXT("players alive : %d"), GI->PlayersAlive.Num());
+
+	for (int Alive : PlayersAlive)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Alive Players : %d"), Alive);
+	}
 	
 	if(GI->PlayersAlive.Num()==1)
 	{
-		GI->PlayersAlive.Empty();
-		for (APlayerState* PlayerState : GetGameState<ABattleArenaGameState>()->PlayerArray)
-		{
-			GI->PlayersAlive.Add(PlayerState->GetPlayerId());
-		}
 		EndRound(GI->PlayersAlive[0]);
 	}
 }
 
 void ABattleArenaGameMode::EndRound(int32 Winner)
 {
+	
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+	GI->PlayersAlive.Empty();
 	GI->PlayerInventories.Empty();
+	for (APlayerState* PlayerState : GetGameState<ABattleArenaGameState>()->PlayerArray)
+	{
+		GI->PlayersAlive.Add(PlayerState->GetPlayerId());
+	}
 	UE_LOG(LogTemp, Warning, TEXT("End Round"));
 	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
 	GS->AddScore(GI->PlayersAlive[0]);
+	GI->Results = GS->Results.Results;
 	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level1", true);
 }
 

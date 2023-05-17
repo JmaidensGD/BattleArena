@@ -12,30 +12,41 @@
 
 void ABattleArenaGameState::AddScore_Implementation(int winner)
 {
-	if(rounds<5)
+	UBattleArenaGameInstance* GI = Cast<UBattleArenaGameInstance>(GetGameInstance());
+	rounds = GI->RoundNumber;
+	Results.Results = GI->Results;
+	if (Results.Results.Contains(winner))
 	{
-		Results[rounds]=(winner);
-		rounds++;
-		for (APlayerState* PlayerState : PlayerArray)
+		Results.Results[winner]++;
+	}
+	else
+	{
+		Results.Results.Add(winner,1);
+	}
+	rounds++;
+	GI->RoundNumber++;
+	for (APlayerState* PlayerState : PlayerArray)
+	{
+		if (ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>())
 		{
-			if (ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>())
-			{
-				PC->RoundEnd(winner);
-			}
-			UE_LOG(LogTemp, Warning, TEXT("PLAYER"));
-			ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>();
-			if(PC)
-			{
-				PC->UpdateUI();
-			}
+			PC->RoundEnd(winner);
 		}
+		UE_LOG(LogTemp, Warning, TEXT("PLAYER"));
+		ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>();
+		if(PC)
+		{
+			PC->UpdateUI();
+		}
+	}
+	for( TMap<int, int>::TIterator it = Results.Results.CreateIterator(); it; ++it )
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PLAYER : %d Score : %d"), it.Key(), it.Value());
 	}
 }
 
 ABattleArenaGameState::ABattleArenaGameState()
 {
 	bReplicates = true;
-	Results.Init(0,5);
 	LootTimerLength = 45.0f;
 }
 
