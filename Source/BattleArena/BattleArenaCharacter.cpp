@@ -98,6 +98,10 @@ void ABattleArenaCharacter::BeginPlay()
 void ABattleArenaCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	if(Attacking)
+	{
+		Attack();
+	}
 }
 
 void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -108,6 +112,8 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedIndex);
 	DOREPLIFETIME(ABattleArenaCharacter,SpawnLocation);
 	DOREPLIFETIME(ABattleArenaCharacter,EquippedWeapon);
+	DOREPLIFETIME(ABattleArenaCharacter,Attacking);
+
 }
 
 void ABattleArenaCharacter::Interact()
