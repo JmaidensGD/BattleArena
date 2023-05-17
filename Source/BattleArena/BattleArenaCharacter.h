@@ -82,6 +82,15 @@ public:
 
 	bool Spawned = false;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Replicated)
+	bool Attacking = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	bool Cooldown = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	bool CanDoDamage = false;
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
 	FVector SpawnLocation;
 

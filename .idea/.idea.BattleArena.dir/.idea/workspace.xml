@@ -6,20 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="30e334ee-4f07-43e1-8e93-5d65afc17f4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleArena.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/HG_Levels/HG_Level1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/HG_Levels/HG_Level1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/HG_Levels/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/HG_Levels/MainMenu.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameState.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/MyBattleArenaGameState.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/HUD/PlayerHUD_wbp.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/HUD/PlayerHUD_wbp.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/Menus/Lobby/StartLobbyMenu/Lobby_UI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Menus/Lobby/StartLobbyMenu/Lobby_UI.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/Network/ServerSlot1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Network/ServerSlot1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/Player/ScoreIndicator.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/Player/ScoreIndicator.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameInstance.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameMode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaGameState.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaLobbyGamemode.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaLobbyGamemode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Weapons/Sword.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/Weapons/Sword.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BattleArena/BattleArenaCharacter.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +28,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="Toolset" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2Kb24sSIfDeglwQbXEdq0C8Hy9e" />
   <component name="ProjectViewState">
@@ -472,6 +463,8 @@
       <workItem from="1678819728609" duration="2070000" />
       <workItem from="1678965023725" duration="2344000" />
       <workItem from="1684263845259" duration="592000" />
+      <workItem from="1684325009074" duration="561000" />
+      <workItem from="1684326260617" duration="875000" />
     </task>
     <servers />
   </component>
