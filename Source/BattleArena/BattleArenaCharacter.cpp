@@ -220,33 +220,7 @@ void ABattleArenaCharacter::Attack()
 {
 	if(EquippedWeapon!=nullptr)
 	{
-		//hardcoded attack forward, no weapon detection
-		/*UE_LOG(LogTemp, Warning, TEXT("Client Stuff"));
-        APlayerController* MyController = Cast<APlayerController>(Controller);
-        if (MyController)
-        {
-        	auto StartLocation = GetMesh()->GetBoneLocation(FName("head"));
-        	auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 350.0f;
-        	FHitResult HitResult;
-        	FCollisionQueryParams QueryParams;
-        	QueryParams.AddIgnoredActor(this);
-        	QueryParams.bTraceComplex = true;
-    
-        	GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
-        	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
-        	
-        	if (HitResult.GetActor() != nullptr)
-        	{
-        		if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
-        		{
-        			ServerAttack();
-        		}
-        	}
-        	else
-        	{
-        		UE_LOG(LogTemp, Warning, TEXT("NULL"));
-        	}
-        }*/
+		
 
 
 		APlayerController* MyController = Cast<APlayerController>(Controller);
@@ -269,6 +243,7 @@ void ABattleArenaCharacter::Attack()
 					ServerAttack();
 					Cooldown = true;
 				}
+		
 			}
 			else
 			{
@@ -276,6 +251,35 @@ void ABattleArenaCharacter::Attack()
 			}
 		}
 		
+	}
+	else
+	{
+		//hardcoded attack forward, no weapon detection
+		APlayerController* MyController = Cast<APlayerController>(Controller);
+		if (MyController)
+		{
+			auto StartLocation = GetMesh()->GetBoneLocation(FName("Main_Head"));
+			auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 50.0f;
+			FHitResult HitResult;
+			FCollisionQueryParams QueryParams;
+			QueryParams.AddIgnoredActor(this);
+			QueryParams.bTraceComplex = true;
+
+			GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
+			DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+
+			if (HitResult.GetActor() != nullptr)
+			{
+				if (HitResult.GetActor()->ActorHasTag(TEXT("Destructible")))
+				{
+					HitResult.GetActor()->TakeDamage(1, FDamageEvent(), GetController(), this);
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("NULL"));
+			}
+		}
 	}
 }
 
