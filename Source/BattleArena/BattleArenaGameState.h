@@ -41,6 +41,9 @@ public:
 	UPROPERTY(VisibleAnywhere,Replicated, BlueprintReadWrite)
 	FScoresStruct Results;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Replicated)
+	TArray<FPlayerResult> Scores;
+
 	UPROPERTY(Replicated,VisibleAnywhere,BlueprintReadWrite)
 	int rounds;
 

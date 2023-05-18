@@ -71,7 +71,7 @@ public:
 	TArray<FPlayerResult> SortedScores;
 
 	UPROPERTY(BlueprintReadOnly)
-	int RoundNumber;
+	int RoundNumber = 1;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<int32> PlayersAlive;
@@ -104,6 +104,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void CreateServer(FString ServerName, FString HostName);
+	UFUNCTION(BlueprintCallable)
+	void EndSession();
 	UFUNCTION(BlueprintCallable)
 	void FindServers();
 	UFUNCTION(BlueprintCallable)

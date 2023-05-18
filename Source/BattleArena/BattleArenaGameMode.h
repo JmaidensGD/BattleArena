@@ -3,13 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BattleArenaCharacter.h"
 #include "PDA_WeaponBase.h"
 #include "GameFramework/GameModeBase.h"
 #include "BattleArenaGameMode.generated.h"
 
 class BattleArenaGameInstance;
-
+class ABattleArenaCharacter;
 
 USTRUCT(BlueprintType)
 struct FPlayerResult

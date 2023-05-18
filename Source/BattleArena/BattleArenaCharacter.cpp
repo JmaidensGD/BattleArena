@@ -118,6 +118,7 @@ void ABattleArenaCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 
 
 
+
 }
 
 void ABattleArenaCharacter::Interact()
@@ -218,6 +219,8 @@ void ABattleArenaCharacter::UpdateInventory_Implementation()
 
 void ABattleArenaCharacter::Attack()
 {
+	BPAttack();
+
 	if(EquippedWeapon!=nullptr)
 	{
 		
@@ -234,12 +237,13 @@ void ABattleArenaCharacter::Attack()
 			QueryParams.bTraceComplex = true;
         
 			GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
-			DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+			//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
         		
 			if (HitResult.GetActor() != nullptr)
 			{
 				if (HitResult.GetActor()->GetClass()->IsChildOf(ABattleArenaCharacter::StaticClass()))
 				{
+					UGameplayStatics::PlaySound2D(GetWorld(),Audio[2]);
 					ServerAttack();
 					Cooldown = true;
 				}
@@ -258,7 +262,7 @@ void ABattleArenaCharacter::Attack()
 		APlayerController* MyController = Cast<APlayerController>(Controller);
 		if (MyController)
 		{
-			auto StartLocation = GetMesh()->GetBoneLocation(FName("Main_Head"));
+			auto StartLocation = GetMesh()->GetBoneLocation(FName("Main_Spine1"));
 			auto  EndLocation = StartLocation + FollowCamera->GetForwardVector() * 50.0f;
 			FHitResult HitResult;
 			FCollisionQueryParams QueryParams;
@@ -266,7 +270,7 @@ void ABattleArenaCharacter::Attack()
 			QueryParams.bTraceComplex = true;
 
 			GetWorld()->LineTraceSingleByChannel(HitResult,StartLocation,EndLocation, ECC_Camera,QueryParams);
-			DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
+			//DrawDebugLine(GetWorld(), StartLocation, EndLocation, HitResult.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 2.0f);
 
 			if (HitResult.GetActor() != nullptr)
 			{
@@ -384,6 +388,7 @@ void ABattleArenaCharacter::MultiDie_Implementation()
 	this->SetActorEnableCollision(false);
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(),Audio[0],this->GetActorLocation());
 }
 
 void ABattleArenaCharacter::EquipWeapon(int32 WeaponIndex)
@@ -433,6 +438,11 @@ void ABattleArenaCharacter::LoadWeapons_Implementation()
 	{
 		InventoryComponent->Weapons.Add(SavedWeapon);
 	}
+}
+
+void ABattleArenaCharacter::LoadScores_Implementation()
+{
+	Cast<ABattleArenaGameState>(UGameplayStatics::GetGameState(GetWorld()))->Scores = GetGameInstance<UBattleArenaGameInstance>()->SortedScores;
 }
 
 void ABattleArenaCharacter::Move(const FInputActionValue& Value)

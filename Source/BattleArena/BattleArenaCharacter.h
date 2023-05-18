@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BattleArenaGameMode.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
@@ -82,6 +83,9 @@ public:
 
 	bool Spawned = false;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TArray<USoundWave*> Audio;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Replicated)
 	bool Attacking = false;
 
@@ -117,6 +121,9 @@ public:
 	UFUNCTION(Server,Reliable,BlueprintCallable)
 	void LoadWeapons();
 
+	UFUNCTION(Server,Reliable,BlueprintCallable)
+	void LoadScores();
+
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void RoundEnd(int Winner);
 	
@@ -134,6 +141,9 @@ protected:
 	void Interact();
 
 	void Attack();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void BPAttack();
 
 	UFUNCTION(Server,Reliable,WithValidation)
 	void ServerAttack();
