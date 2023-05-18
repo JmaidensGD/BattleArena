@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "BattleArenaGameInstance.h"
 #include  "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
@@ -16,6 +15,15 @@ void UBattleArenaGameInstance::UpdateAlivePlayers(int32 PlayerID)
 {
 	PlayersAlive.Add(PlayerID);
 }
+
+void UBattleArenaGameInstance::InitScores()
+{
+	for (int Alive : PlayersAlive)
+	{
+		Results.Add(Alive,0);
+	}
+}
+
 
 TArray<UPDA_WeaponBase*> UBattleArenaGameInstance::GetWeapon(int32 PlayerID)
 {

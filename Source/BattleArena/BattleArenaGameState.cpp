@@ -5,9 +5,11 @@
 
 #include "BattleArenaCharacter.h"
 #include "BattleArenaGameInstance.h"
+#include "BattleArenaGameMode.h"
 #include "BattleArenaPlayerController.h"
 #include "InventoryComponent.h"
 #include "GameFramework/PlayerState.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 void ABattleArenaGameState::AddScore_Implementation(int winner)
@@ -18,6 +20,11 @@ void ABattleArenaGameState::AddScore_Implementation(int winner)
 	if (Results.Results.Contains(winner))
 	{
 		Results.Results[winner]++;
+		GI->Results = Results.Results;
+		if(Results.Results[winner]>=3)
+		{
+			Cast<ABattleArenaGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->EndGame();
+		}
 	}
 	else
 	{
