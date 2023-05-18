@@ -31,7 +31,7 @@ void ABattleArenaGameState::AddScore_Implementation(int winner)
 		Results.Results.Add(winner,1);
 	}
 	rounds++;
-	GI->RoundNumber++;
+	GI->RoundNumber = rounds;
 	for (APlayerState* PlayerState : PlayerArray)
 	{
 		if (ABattleArenaCharacter* PC = PlayerState->GetPawn<ABattleArenaCharacter>())
@@ -94,4 +94,6 @@ void ABattleArenaGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME(ABattleArenaGameState, LootTimerValue);
 	DOREPLIFETIME(ABattleArenaGameState, LobbyPlayers);
 	DOREPLIFETIME(ABattleArenaGameState, CurrentServerInfo);
+	DOREPLIFETIME(ABattleArenaGameState, Scores);
+
 }

@@ -3,6 +3,7 @@
 #include "BattleArenaGameInstance.h"
 #include  "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
+#include "GameFramework/OnlineSession.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
@@ -134,6 +135,10 @@ void UBattleArenaGameInstance::CreateServer(FString ServerName, FString HostName
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
 	
 	CurrentServerInfo.ServerName = ServerName;
+}
+
+void UBattleArenaGameInstance::EndSession()
+{
 }
 
 void UBattleArenaGameInstance::FindServers()

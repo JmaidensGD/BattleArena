@@ -29,7 +29,7 @@ ABattleArenaGameMode::ABattleArenaGameMode()
 
 AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Player)
 {
-	/*TSubclassOf<APlayerStart> ToFind;
+	TSubclassOf<APlayerStart> ToFind;
 	TArray<AActor*> PlayerStarts;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ToFind, PlayerStarts);
 
@@ -41,7 +41,7 @@ AActor* ABattleArenaGameMode::ChoosePlayerStart_Implementation(AController* Play
 			Start->Tags.Add("Taken");
 			return Start;
 		}
-	}*/
+	}
 	
 	return Super::ChoosePlayerStart_Implementation(Player);
 }
