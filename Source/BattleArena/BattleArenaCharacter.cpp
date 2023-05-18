@@ -381,6 +381,7 @@ void ABattleArenaCharacter::ServerNotifyDeath_Implementation()
 void ABattleArenaCharacter::MultiDie_Implementation()
 {
 	this->GetCharacterMovement()->DisableMovement();
+	this->SetActorEnableCollision(false);
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
 }

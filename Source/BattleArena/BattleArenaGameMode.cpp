@@ -56,7 +56,9 @@ void ABattleArenaGameMode::PostLogin(APlayerController* NewPlayer)
 	if (NewPlayerState!= nullptr)
 	{
 		GI->PlayersAlive.Add(NewPlayerState->GetPlayerId());
+		UE_LOG(LogTemp, Warning, TEXT("ADDED PLAYER : %d"), NewPlayerState->GetPlayerId());
 	}
+	GI->InitScores();
 	PC->MaxHealth = 100.0f;
 	PC->PlayerHealth = PC->MaxHealth;
 	/*FVector Loc = PC->GetActorLocation();
@@ -113,16 +115,11 @@ void ABattleArenaGameMode::PlayerDeath(int32 ID)
 
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
 
-	UE_LOG(LogTemp, Warning, TEXT("players alive : %d"), GI->PlayersAlive.Num());
+	UE_LOG(LogTemp, Warning, TEXT("array size : %d"), GI->PlayersAlive.Num());
 	
 	GI->PlayersAlive.Remove(ID);
 
-	UE_LOG(LogTemp, Warning, TEXT("players alive : %d"), GI->PlayersAlive.Num());
-
-	for (int Alive : PlayersAlive)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Alive Players : %d"), Alive);
-	}
+	UE_LOG(LogTemp, Warning, TEXT("array size : %d"), GI->PlayersAlive.Num());
 	
 	if(GI->PlayersAlive.Num()==1)
 	{
@@ -132,7 +129,7 @@ void ABattleArenaGameMode::PlayerDeath(int32 ID)
 
 void ABattleArenaGameMode::EndRound(int32 Winner)
 {
-	
+	UE_LOG(LogTemp, Warning, TEXT("WINNER %d"), Winner);
 	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
 	GI->PlayersAlive.Empty();
 	GI->PlayerInventories.Empty();
@@ -142,9 +139,40 @@ void ABattleArenaGameMode::EndRound(int32 Winner)
 	}
 	UE_LOG(LogTemp, Warning, TEXT("End Round"));
 	ABattleArenaGameState* GS = Cast<ABattleArenaGameState>(GameState);
-	GS->AddScore(GI->PlayersAlive[0]);
+	GS->AddScore(Winner);
 	GI->Results = GS->Results.Results;
 	GetWorld()->ServerTravel("/Game/HG_Levels/HG_Level1", true);
+}
+
+void ABattleArenaGameMode::EndGame()
+{
+	UBattleArenaGameInstance* GI = GetGameInstance<UBattleArenaGameInstance>();
+	for( TMap<int, int>::TIterator it = GI->Results.CreateIterator(); it; ++it )
+	{
+		PlayerResults.Add({it.Key(),it.Value()});
+	}
+
+	PlayerResults.Sort([](const FPlayerResult& Lhs, const FPlayerResult& Rhs) -> bool{
+	// sort by a
+	if (Lhs.Score > Rhs.Score)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	});
+
+	GI->SortedScores = PlayerResults;
+
+	UE_LOG(LogTemp, Warning, TEXT("SIZE : %d"),PlayerResults.Num());
+
+	for (FPlayerResult PlayerResult : PlayerResults)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ID : %d , SCORE : %d"),PlayerResult.PlayerID,PlayerResult.Score);
+	}
+	GetWorld()->ServerTravel("/Game/HG_Levels/PostRound", true);
 }
 
 void ABattleArenaGameMode::Tick(float DeltaSeconds)

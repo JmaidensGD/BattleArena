@@ -4,10 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "BattleArenaCharacter.h"
-#include "BattleArenaGameInstance.h"
 #include "PDA_WeaponBase.h"
 #include "GameFramework/GameModeBase.h"
 #include "BattleArenaGameMode.generated.h"
+
+class BattleArenaGameInstance;
+
+
+USTRUCT(BlueprintType)
+struct FPlayerResult
+{
+	GENERATED_BODY()
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	int PlayerID;
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	int Score;
+};
+
 
 UCLASS(minimalapi)
 class ABattleArenaGameMode : public AGameModeBase
@@ -22,6 +36,9 @@ public:
 
 	UFUNCTION()
 	void EndRound(int32 Winner);
+
+	UFUNCTION()
+	void EndGame();
 	
 protected:
 
@@ -49,6 +66,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<int32> PlayersAlive;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	TArray<FPlayerResult> PlayerResults;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UPDA_WeaponBase* Weapondata;

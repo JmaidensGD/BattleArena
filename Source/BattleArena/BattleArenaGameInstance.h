@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BattleArenaGameMode.h"
 #include "PDA_WeaponBase.h"
 #include "Engine/GameInstance.h"
 #include "Interfaces/OnlineSessionInterface.h"
@@ -57,11 +58,17 @@ public:
 
 	UFUNCTION()
 	void UpdateAlivePlayers(int32 PlayerID);
+
+	UFUNCTION()
+	void InitScores();
 	
 	UPROPERTY()
 	TMap<int32,FPlayerWeapons> PlayerInventories;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	TMap<int,int> Results;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	TArray<FPlayerResult> SortedScores;
 
 	UPROPERTY(BlueprintReadOnly)
 	int RoundNumber;
